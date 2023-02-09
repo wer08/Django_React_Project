@@ -5,6 +5,8 @@ from .models import Student
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+
+
 # Create your views here.
 def index(request):
     student = Student.objects.get(pk=1)
@@ -13,6 +15,15 @@ def index(request):
         'surname': student.surname
     }
     return JsonResponse(data, safe=False)
+
+def getUser(request):
+    user = request.user
+    print(user)
+    return JsonResponse({
+        "username": user.username,
+        "email": user.email,
+        "active": user.is_active
+    })
 
 @csrf_exempt
 def change(request,id):

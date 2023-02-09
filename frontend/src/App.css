@@ -4,7 +4,23 @@
   padding: 2rem;
   text-align: center;
 }
+.submit_button{
+  background-color: whitesmoke;
+  border: none;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 5px;
+}
+.submit_button:hover{
+  cursor: pointer;
+  filter: brightness(85%);
 
+}
 .logo {
   height: 6em;
   padding: 1.5em;
