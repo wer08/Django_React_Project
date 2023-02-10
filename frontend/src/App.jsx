@@ -5,18 +5,8 @@ import SplitPane from 'react-split-pane'
 
 function App() {
   const [currentUser,setCurrentUser] = useState(null)
-  const getUser = ()=>{
-    fetch("0.0.0.0:8000/getUser")
-    .then(response=>console.log(response))
-    // .then(user=>{
-    //   setCurrentUser(user)
-    // })
-    // .then(console.log(currentUser))
-  }
+  const [token,setToken] = useState(null)
 
-  useEffect(()=>{
-    getUser()
-  },[])
 
 
 
