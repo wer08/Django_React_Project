@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'myProject',
     'corsheaders',
     'rest_framework',
-    'djoser'
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -145,7 +145,10 @@ DJOSER ={
     'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SERIALIZERS': {
-    
+        'user_create': 'myProject.serializers.UserCreateSerializer',
+        'user': 'myProject.serializers.UserCreateSerializer',
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+        
     }
 
 }
