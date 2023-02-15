@@ -1,34 +1,36 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom' 
 import './App.css'
 import SplitPane from 'react-split-pane'
+import { Provider } from 'react-redux'
+import store from './store'
+
+import Activate from './containers/Acitvate'
+import Home from './containers/Home'
+import Login from './containers/Login'
+import ResetPassword from './containers/ResetPassword'
+import ResetPasswordConfirm from './containers/ResetPasswordConfirm'
+import SignUp from './containers/SignUp'
+import Layout from './hocs/layout'
 
 function App() {
-  const [currentUser,setCurrentUser] = useState(null)
-  const [token,setToken] = useState(null)
-
-
-
 
   return (
-    <div className="App">
-      <p>Messenger</p>
-      <SplitPane split="vertical" defaultSize ={"20%"}>
-        <div>
-          <p>Contact list</p>
-        </div>
-        <SplitPane split="vertical" defaultSize ={"75%"}>
-          <div>
-            <p>Conversation</p>
-          </div>
-          <div>
-            <p>contact ingo</p>
-          </div>
-        </SplitPane>
+    <Provider store={store}>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route exact path='/login' element={<Login />} />
+            <Route exact path='/signup' element={<SignUp />} />
+            <Route exact path='/activate/:uid/:token' element={<Activate />} />
+            <Route exact path='/reset_password' element={<ResetPassword />} />
+            <Route exact path='/password/reset/confirm/:uid/:token' element={<ResetPasswordConfirm />} />
+          </Routes>
+        </ Layout>
 
-      </SplitPane>
-
-    </div>
+      </Router>
+    </Provider>
   )
 }
 

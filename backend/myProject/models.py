@@ -5,11 +5,11 @@ from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None):
+    def create_user(self, email, name, phone, password=None):
         if not email:
             raise ValueError('Users must have an email address')
         email = self.normalize_email(email)
-        user = self.model(email=email, name=name)
+        user = self.model(email=email, name=name, phone=phone)
         user.set_password(password)
         user.save()
 
