@@ -6,8 +6,61 @@ import {
     LOAD_USER_SUCCES,
     AUTHENTICATION_FAIL,
     AUTHENTICATION_SUCCESS,
-    LOGOUT
+    LOGOUT,
+    PASSWORD_RESET_CONFIRM_FAIL,
+    PASSWORD_RESET_CONFIRM_SUCCESS,
+    PASSWORD_RESET_FAIL,
+    PASSWORD_RESET_SUCCESS
 } from "./types";
+
+export const password_reset = (email) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = JSON.stringify({
+        email: email
+    })
+    try{
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/users/reset_password/`,body, config);
+        dispatch({
+            type: PASSWORD_RESET_SUCCESS
+        })
+    }catch(e){
+        console.log(e)
+        dispatch({
+            type: PASSWORD_RESET_FAIL
+        })
+    }
+}
+
+export const password_reset_confirm = (uid,token,new_password,re_new_password) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = JSON.stringify({
+        uid: uid,
+        token: token,
+        new_password: new_password,
+        re_new_password: re_new_password
+    })
+
+    try{
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/users/reset_password_confirm/`,body,config)
+        dispatch({
+            type: PASSWORD_RESET_CONFIRM_SUCCESS,
+            payload: res.data
+        })
+
+    }catch(e){
+        dispatch({
+            type: PASSWORD_RESET_CONFIRM_FAIL
+        })
+    }
+}
 
 
 export const check_authentication = () => async dispatch => {
@@ -25,7 +78,6 @@ export const check_authentication = () => async dispatch => {
         })
 
         try{
-            console.log(body)
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/jwt/verify/`,body,config)
             if (res.data.code !== 'token_not_valid' )
             {            
@@ -38,7 +90,6 @@ export const check_authentication = () => async dispatch => {
             }
 
         }catch(e){
-            console.log(e)
             dispatch({
                 type: AUTHENTICATION_FAIL
             })

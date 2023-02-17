@@ -19,7 +19,7 @@ const Navbar = ({logout, isAuthenticated}) => {
     const authLinks = () =>{
         return(
             <li className="nav-item">
-                <a className="nav-link" to="#!" onClick={()=>logout()}>LogOut</a>
+                <a className="nav-link logout" to="#!" onClick={()=>logout()}>LogOut</a>
             </li>
         )
 
