@@ -13,6 +13,15 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+
+import django
+from django.utils.encoding import force_str
+django.utils.encoding.force_text = force_str
+
+from urllib.parse import quote
+
+django.utils.http.urlquote = quote
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -51,15 +60,15 @@ INSTALLED_APPS = [
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION':  False
 }
 
 
 MIDDLEWARE = [
-    'social_django.middleware.SocialAuthExceptionMiddleware'
+    # 'social_django.middleware.SocialAuthExceptionMiddleware'
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
@@ -72,6 +81,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
 TEMPLATES = [
     {
@@ -177,6 +188,14 @@ DJOSER ={
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '610673970685-u15sbeas1e33ol0pbapq1bv7029mci8a.apps.googleusercontent.com'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid',
+
+]
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name','last_name']
 
 
 

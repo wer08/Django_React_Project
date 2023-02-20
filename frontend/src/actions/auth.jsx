@@ -14,7 +14,9 @@ import {
     SIGN_UP_SUCCESS,
     SIGN_UP_FAIL,
     ACTIVATION_SUCCESS,
-    ACTIVATION_FAIL
+    ACTIVATION_FAIL,
+    GOOGLE_AUTH_FAIL,
+    GOOGLE_AUTH_SUCCESS
 } from "./types";
 
 export const password_reset = (email) => async dispatch => {
@@ -204,6 +206,36 @@ export const login = (email,password) => async dispatch => {
         dispatch({
             type: LOGIN_FAIL
         })
+    }
+}
+
+export const googleAuthenticate = (state,code) => async dispatch => {
+    if (state && code && !localStorage.getItem('access'))
+    {
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www.form-urlencoded'
+            }
+        };
+        const details = {
+            'state': state,
+            'code': code
+        };
+        const formBody = Object.keys(details).map(key => encodeURIComponent(key)+"="+encodeURIComponent(details[key])).join('&');
+        try{
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/o/google-oauth2/?${formBody}`,config)
+            
+            dispatch({
+                type: GOOGLE_AUTH_SUCCESS,
+                payload: res.data
+            });
+
+            dispatch(load_user());
+        }catch(e){
+            dispatch({
+                type: GOOGLE_AUTH_FAIL,
+            })
+        }
     }
 }
 
