@@ -6,6 +6,10 @@ import {
     AUTHENTICATION_FAIL,
     AUTHENTICATION_SUCCESS,
     LOGOUT,
+    SIGN_UP_SUCCESS,
+    SIGN_UP_FAIL,
+    ACTIVATION_SUCCESS,
+    ACTIVATION_FAIL,
     PASSWORD_RESET_CONFIRM_FAIL,
     PASSWORD_RESET_CONFIRM_SUCCESS,
     PASSWORD_RESET_FAIL,
@@ -23,6 +27,13 @@ export default (state = initialState, action) => {
     const {type,payload} = action;
 
     switch(type){
+        case SIGN_UP_SUCCESS:
+        case ACTIVATION_SUCCESS:
+        case ACTIVATION_FAIL:
+        case SIGN_UP_FAIL:
+            return {
+                ...state
+            }
         case AUTHENTICATION_SUCCESS:
             return{
                 ...state,
