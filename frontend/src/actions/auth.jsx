@@ -119,7 +119,8 @@ export const sign_up = (email,name,phone,password,re_password) => async dispatch
     try{
         res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/users/`,body,config)
         dispatch({
-            type: SIGN_UP_SUCCESS
+            type: SIGN_UP_SUCCESS,
+            payload: res.data
         })
     }catch(e){
         dispatch({

@@ -28,11 +28,9 @@ export default (state = initialState, action) => {
 
     switch(type){
         case SIGN_UP_SUCCESS:
-        case ACTIVATION_SUCCESS:
-        case ACTIVATION_FAIL:
-        case SIGN_UP_FAIL:
             return {
-                ...state
+                ...state,
+                isAuthenticated: false
             }
         case AUTHENTICATION_SUCCESS:
             return{
@@ -57,6 +55,7 @@ export default (state = initialState, action) => {
                 ...state,
                 user: null
             }
+        case SIGN_UP_FAIL:
         case LOGIN_FAIL:
             localStorage.removeItem('access');
             localStorage.removeItem('refresh')
@@ -85,6 +84,8 @@ export default (state = initialState, action) => {
         case PASSWORD_RESET_CONFIRM_FAIL:
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_FAIL:
+        case ACTIVATION_SUCCESS:
+        case ACTIVATION_FAIL:
         case PASSWORD_RESET_SUCCESS:
             return{
                 ...state,

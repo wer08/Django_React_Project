@@ -9,3 +9,4 @@ psycopg2-binary
 djangorestframework-simplejwt
 djoser
 pandas
+social-auth-app-django

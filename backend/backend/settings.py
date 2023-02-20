@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-import datetime
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
+    'social_django',
+    'rest_framework_simplejwt'
 ]
 
 SIMPLE_JWT = {
@@ -57,6 +59,7 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
+    'social_django.middleware.SocialAuthExceptionMiddleware'
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
@@ -81,6 +84,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -143,6 +148,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
 DJOSER ={
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': True,
@@ -159,10 +169,18 @@ DJOSER ={
         'user_create': 'myProject.serializers.UserCreateSerializer',
         'user': 'myProject.serializers.UserCreateSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
+        'current_user': 'myProject.serializers.UserCreateSerializer'
         
     }
-
 }
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '610673970685-u15sbeas1e33ol0pbapq1bv7029mci8a.apps.googleusercontent.com'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+
+
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -186,6 +204,12 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
+   'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+   'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+   'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+   )
+
 }
 
 # Default primary key field type

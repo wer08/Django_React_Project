@@ -27,7 +27,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=12)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default = False)
@@ -36,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name','phone']
+    REQUIRED_FIELDS = ['first_name','phone','last_name']
 
     def get_full_name(self):
         return self.name
