@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
     'social_django',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+
 ]
 
 SIMPLE_JWT = {
@@ -68,7 +69,7 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
-    # 'social_django.middleware.SocialAuthExceptionMiddleware'
+
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
@@ -78,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -176,6 +178,8 @@ DJOSER ={
     'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:5173'],
     'SERIALIZERS': {
         'user_create': 'myProject.serializers.UserCreateSerializer',
         'user': 'myProject.serializers.UserCreateSerializer',
@@ -205,7 +209,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name','last_name']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static')
 ]

@@ -24,7 +24,7 @@ const Login = ({login, isAuthenticated}) => {
 
     const continueWithGoogle = async () => {
         try{
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:8000`)
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:5173`)
             window.location.replace(res.data.authorization_url)
         }catch(e){
             console.log(e)

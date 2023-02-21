@@ -214,7 +214,7 @@ export const googleAuthenticate = (state,code) => async dispatch => {
     {
         const config = {
             headers: {
-                'Content-Type': 'application/x-www.form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         };
         const details = {
@@ -224,7 +224,7 @@ export const googleAuthenticate = (state,code) => async dispatch => {
         const formBody = Object.keys(details).map(key => encodeURIComponent(key)+"="+encodeURIComponent(details[key])).join('&');
         try{
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/o/google-oauth2/?${formBody}`,config)
-            
+
             dispatch({
                 type: GOOGLE_AUTH_SUCCESS,
                 payload: res.data
@@ -232,6 +232,7 @@ export const googleAuthenticate = (state,code) => async dispatch => {
 
             dispatch(load_user());
         }catch(e){
+            console.log(e)
             dispatch({
                 type: GOOGLE_AUTH_FAIL,
             })

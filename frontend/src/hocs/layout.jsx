@@ -10,11 +10,8 @@ const Layout = (props) => {
     
     useEffect(()=>{
         const values = new URLSearchParams(location.search);
-        const state = values.state ? values.state : null;
-        const code = values.code ? values.code : null
-
-        console.log('State: '+ state)
-        console.log('Code: '+ code)
+        const state = values.get('state') ? values.get('state') : null;
+        const code = values.get('code') ? values.get('code') : null
 
         if(state && code)
         {
