@@ -19,7 +19,6 @@ const Layout = (props) => {
         }else{
             props.check_authentication();
             props.load_user();
-    
         }
 
     },[location])

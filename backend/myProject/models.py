@@ -5,11 +5,11 @@ from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, email, phone, password=None, **extrafields):
+    def create_user(self, email, password=None, **extrafields):
         if not email:
             raise ValueError('Users must have an email address')
         email = self.normalize_email(email)
-        user = self.model(email=email, phone=phone, **extrafields)
+        user = self.model(email=email, **extrafields)
         user.set_password(password)
         user.save()
 
@@ -37,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name','phone','last_name']
+    REQUIRED_FIELDS = ['first_name','last_name']
 
     def get_full_name(self):
         return self.first_name
@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
     def __str__(self) -> str:
-        return self.username
+        return f'{self.first_name} {self.last_name}'
 
 class Student(models.Model):
     name = models.CharField(max_length=150)

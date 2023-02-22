@@ -16,8 +16,14 @@ import {
     ACTIVATION_SUCCESS,
     ACTIVATION_FAIL,
     GOOGLE_AUTH_FAIL,
-    GOOGLE_AUTH_SUCCESS
+    GOOGLE_AUTH_SUCCESS,
+    FACEBOOK_AUTH_SUCCES,
+    FACEBOOK_AUTH_FAIL
 } from "./types";
+
+axios.defaults.withCredentials = true;
+
+
 
 export const password_reset = (email) => async dispatch => {
     const config = {
@@ -111,13 +117,13 @@ export const check_authentication = () => async dispatch => {
     }
 }
 
-export const sign_up = (email,name,phone,password,re_password) => async dispatch => {
+export const sign_up = (email,first_name,last_name,phone,password,re_password) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
-    const body = JSON.stringify({email,name,phone, password,re_password});
+    const body = JSON.stringify({email,first_name,last_name,phone, password,re_password});
     try{
         res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/users/`,body,config)
         dispatch({
@@ -175,7 +181,6 @@ export const load_user = () => async dispatch => {
         }
     }
     else{
-        console.log("here")
         dispatch({
             type: LOAD_USER_FAIL
         })
@@ -209,7 +214,39 @@ export const login = (email,password) => async dispatch => {
     }
 }
 
+export const facebookAuthenticate = (state,code) => async dispatch => {
+    if (state && code && !localStorage.getItem('access'))
+    {
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+        const details = {
+            'state': state,
+            'code': code
+        };
+        const formBody = Object.keys(details).map(key => encodeURIComponent(key)+"="+encodeURIComponent(details[key])).join('&');
+        try{
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/o/google-oauth2/?${formBody}`,config)
+
+            dispatch({
+                type: FACEBOOK_AUTH_SUCCES,
+                payload: res.data
+            });
+
+            dispatch(load_user());
+        }catch(e){
+            console.log(e)
+            dispatch({
+                type: FACEBOOK_AUTH_FAIL,
+            })
+        }
+    }
+}
+
 export const googleAuthenticate = (state,code) => async dispatch => {
+
     if (state && code && !localStorage.getItem('access'))
     {
         const config = {
@@ -241,8 +278,8 @@ export const googleAuthenticate = (state,code) => async dispatch => {
 }
 
 export const logout = () => dispatch => {
+
     dispatch({
         type: LOGOUT
-
     });
 }

@@ -202,6 +202,20 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name','last_name']
 
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '610673970685-u15sbeas1e33ol0pbapq1bv7029mci8a.apps.googleusercontent.com'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid',
+
+]
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name','last_name']
+
+
+
 
 
 
@@ -243,3 +257,7 @@ CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
      'http://localhost:5173'
 ]
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+

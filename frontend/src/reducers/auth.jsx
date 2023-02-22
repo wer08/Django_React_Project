@@ -15,7 +15,9 @@ import {
     PASSWORD_RESET_FAIL,
     PASSWORD_RESET_SUCCESS,
     GOOGLE_AUTH_FAIL,
-    GOOGLE_AUTH_SUCCESS
+    GOOGLE_AUTH_SUCCESS,
+    FACEBOOK_AUTH_FAIL,
+    FACEBOOK_AUTH_SUCCES
 } from "../actions/types";
 
 const initialState = {
@@ -53,8 +55,10 @@ export default (state = initialState, action) => {
                 user: payload
             }
         case LOAD_USER_FAIL:
+            localStorage.removeItem('access')
             return{
                 ...state,
+                access: null,
                 user: null
             }
         case SIGN_UP_FAIL:
@@ -83,6 +87,7 @@ export default (state = initialState, action) => {
                 refresh: null,
                 user: null
             }
+        case FACEBOOK_AUTH_SUCCES:
         case GOOGLE_AUTH_SUCCESS:
             localStorage.setItem('access', payload.access)
 
@@ -92,6 +97,7 @@ export default (state = initialState, action) => {
                 refresh: payload.refresh,
                 isAuthenticated: true
             }
+        case FACEBOOK_AUTH_FAIL:
         case GOOGLE_AUTH_FAIL:
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
