@@ -163,6 +163,7 @@ USE_TZ = True
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
 
@@ -179,7 +180,7 @@ DJOSER ={
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:5173'],
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:5173/google','http://localhost:5173/facebook'],
     'SERIALIZERS': {
         'user_create': 'myProject.serializers.UserCreateSerializer',
         'user': 'myProject.serializers.UserCreateSerializer',
@@ -202,17 +203,16 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name','last_name']
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '610673970685-u15sbeas1e33ol0pbapq1bv7029mci8a.apps.googleusercontent.com'
+SOCIAL_AUTH_FACEBOOK_KEY = '863865814701236'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'c46ac4ab411f8da0f7b0ab7652641a12'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'openid',
-
+SOCIAL_AUTH_FACEBOOK_SCOPE = [
+    'email',
 ]
-SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name','last_name']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'email, first_name, last_name, phone'
+}
 
 
 

@@ -32,6 +32,7 @@ export default (state = initialState, action) => {
 
     switch(type){
         case SIGN_UP_SUCCESS:
+        case AUTHENTICATION_FAIL:
             return {
                 ...state,
                 isAuthenticated: false
@@ -42,7 +43,10 @@ export default (state = initialState, action) => {
                 isAuthenticated: true
             }
         case LOGIN_SUCCES:
-            localStorage.setItem('access',payload.access)
+        case FACEBOOK_AUTH_SUCCES:
+        case GOOGLE_AUTH_SUCCESS:
+            localStorage.setItem('access',payload.access);
+            localStorage.setItem('refresh',payload.refresh);
             return{
                 ...state,
                 isAuthenticated: true,
@@ -63,40 +67,7 @@ export default (state = initialState, action) => {
             }
         case SIGN_UP_FAIL:
         case LOGIN_FAIL:
-            localStorage.removeItem('access');
-            localStorage.removeItem('refresh')
-            return{
-                ...state,
-                isAuthenticated: false,
-                access: null,
-                refresh: null,
-                user: null
-            }
-        case AUTHENTICATION_FAIL:
-            return{
-                ...state,
-                isAuthenticated: false
-            }
         case LOGOUT:
-            localStorage.removeItem('access');
-            localStorage.removeItem('refresh');
-            return{
-                ...state,
-                isAuthenticated: false,
-                access: null,
-                refresh: null,
-                user: null
-            }
-        case FACEBOOK_AUTH_SUCCES:
-        case GOOGLE_AUTH_SUCCESS:
-            localStorage.setItem('access', payload.access)
-
-            return{
-                ...state,
-                access: payload.access,
-                refresh: payload.refresh,
-                isAuthenticated: true
-            }
         case FACEBOOK_AUTH_FAIL:
         case GOOGLE_AUTH_FAIL:
             localStorage.removeItem('access');

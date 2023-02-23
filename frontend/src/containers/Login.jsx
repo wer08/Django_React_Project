@@ -59,13 +59,16 @@ const Login = ({login, isAuthenticated}) => {
                 </div>
                 <button className="btn btn-primary" type='submit'>Login</button>
             </form>
-
-            <button className="btn btn-danger mt-3" onClick={continueWithGoogle}>
-                Continue with Google
-            </button>
-            <button className="btn btn-primary mt-3" onClick={continueWithFacebook}>
-                Continue with Facebook
-            </button>
+            <div>
+                <button className="btn btn-danger mt-3" onClick={continueWithGoogle}>
+                    Continue with Google
+                </button>
+            </div>
+            <div>
+                <button className="btn btn-primary mt-3" onClick={continueWithFacebook}>
+                    Continue with Facebook
+                </button>
+            </div>
             <p className="mt-3">
                 Don't have an account ? <Link to='/signup'>SignUp</Link>
             </p>

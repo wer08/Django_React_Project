@@ -1,16 +1,49 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import SplitPane from "react-split-pane";
 
-const Home = ({isAuthenticated}) => {
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
+});
+ 
+
+const Home = ({user,isAuthenticated}) => {
+    console.log(user)
+
 
     const logged = () => {
-        return(
-            <h2>You are logged</h2>
-        )
+        try{
+            return(
+                <div>
+                    <SplitPane split="vertical" minSize={50} defaultSize={500}>
+                        <div style={{backgroundColor: 'yellow'}}>
+                            <h2>{user.email}</h2>
+                        </div>
+                        <SplitPane split="vertical" minSize={50} defaultSize={500}>
+                            <div>
+                                <h2>{user.first_name}</h2>
+                            </div>
+
+                            <div>
+                                <h2>{user.last_name}</h2>
+                            </div>
+                        </SplitPane>
+
+    
+                    </SplitPane>
+                </div>
+            )
+        }
+        catch{
+            return(<h1>Loading</h1>)
+        }
+
     }
     
     const not_logged = () => {
+
         return ( 
             <div className="container">
                 <div className="jumbotron">
@@ -33,8 +66,6 @@ const Home = ({isAuthenticated}) => {
         </>
     )
 }
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-});
+
  
 export default connect(mapStateToProps,{})(Home);

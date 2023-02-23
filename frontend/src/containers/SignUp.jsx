@@ -82,13 +82,17 @@ const SignUp = ({sign_up, isAuthenticated}) => {
                     <input className="form-control mb-2" type='password' placeholder="Confirm Password" name="re_password" minLength='6' value={re_password} onChange={e=>onChange(e)} required />
                 </div>
                 <button className="btn btn-primary" type='submit'>Sign Up</button>
+                <div>
+                    <button className="btn btn-danger mt-3" onClick={continueWithGoogle}>
+                        Continue with Google
+                    </button>
+                </div>
+                <div>
+                    <button className="btn btn-primary mt-3" onClick={continueWithFacebook}>
+                        Continue with Facebook
+                    </button>
+                </div>
 
-                <button className="btn btn-danger mt-3" onClick={continueWithGoogle}>
-                    Continue with Google
-                </button>
-                <button className="btn btn-primary mt-3" onClick={continueWithFacebook}>
-                    Continue with Facebook
-                </button>
                 <p className="mt-3">
                     Already an user ? <Link to='/login'>Sign In</Link>
                 </p>

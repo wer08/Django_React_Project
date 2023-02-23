@@ -215,8 +215,10 @@ export const login = (email,password) => async dispatch => {
 }
 
 export const facebookAuthenticate = (state,code) => async dispatch => {
+    
     if (state && code && !localStorage.getItem('access'))
     {
+
         const config = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -228,7 +230,7 @@ export const facebookAuthenticate = (state,code) => async dispatch => {
         };
         const formBody = Object.keys(details).map(key => encodeURIComponent(key)+"="+encodeURIComponent(details[key])).join('&');
         try{
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/o/google-oauth2/?${formBody}`,config)
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/o/facebook/?${formBody}`,config)
 
             dispatch({
                 type: FACEBOOK_AUTH_SUCCES,
