@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {
     PROFILE_CHANGE_SUCCESS,
-    PROFILE_CHANGE_FAIL
+    PROFILE_CHANGE_FAIL,
+    GET_USERS_FAIL,
+    GET_USERS_SUCCESS
 } from "./types";
 
 axios.defaults.withCredentials = true;
@@ -34,5 +36,15 @@ export const change_profile_data = (data) => async dispatch => {
                 type: PROFILE_CHANGE_FAIL
             })
         }
+    }
+}
+
+export const get_users = () => async dispatch => {
+    try{
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`)
+        console.log(res.data)
+        return res.data
+    }catch(e){
+        console.log(e)
     }
 }

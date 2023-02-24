@@ -43,8 +43,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
     def get_short_name(self):
         return self.first_name
-    def __str__(self):
-        return self.email
+
+    def serialize(self):
+        return{
+            'email': self.email,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'phone': self.phone,
+            'contacts': self.contacts
+        }
 
 
     def __str__(self) -> str:

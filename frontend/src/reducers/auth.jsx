@@ -19,7 +19,9 @@ import {
     FACEBOOK_AUTH_FAIL,
     FACEBOOK_AUTH_SUCCES,
     PROFILE_CHANGE_FAIL,
-    PROFILE_CHANGE_SUCCESS
+    PROFILE_CHANGE_SUCCESS,
+    GET_USERS_FAIL,
+    GET_USERS_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -93,6 +95,8 @@ export default (state = initialState, action) => {
         case ACTIVATION_FAIL:
         case PASSWORD_RESET_SUCCESS:
         case PROFILE_CHANGE_FAIL:
+        case GET_USERS_FAIL:
+        case GET_USERS_SUCCESS:
             return{
                 ...state,
             }
