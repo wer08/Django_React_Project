@@ -10,6 +10,17 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
-def findUser(request,email):
-    user = User.objects.get(email = email)
-    return JsonResponse(user)
+def change_data(request,pk):
+    user = User.objects.get(pk = pk)
+    if request.method == 'PUT':
+        print("dsfsd")
+        body = json.loads(request.body)
+        first_name = body['first_name']
+        last_name = body['last_name']
+        phone = body['phone']
+        user.first_name = first_name
+        user.last_name = last_name
+        user.phone = phone
+        user.save()
+        return HttpResponse(status = 204)
+

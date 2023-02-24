@@ -31,7 +31,7 @@ function App() {
             <Route exact path='/google' element={<Google />} />
             <Route exact path='/facebook' element={<Facebook />} />
             <Route exact path='/password/reset/confirm/:uid/:token' element={<ResetPasswordConfirm />} />
-            <Route exact path = '/profile' element={<Profile />} />
+            <Route exact path='/profile' element={<Profile />} />
           </Routes>
         </ Layout>
 

@@ -17,7 +17,9 @@ import {
     GOOGLE_AUTH_FAIL,
     GOOGLE_AUTH_SUCCESS,
     FACEBOOK_AUTH_FAIL,
-    FACEBOOK_AUTH_SUCCES
+    FACEBOOK_AUTH_SUCCES,
+    PROFILE_CHANGE_FAIL,
+    PROFILE_CHANGE_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -79,13 +81,18 @@ export default (state = initialState, action) => {
                 refresh: null,
                 user: null
             }
-
+        case PROFILE_CHANGE_SUCCESS:
+            return{
+                ...state,
+                user: {...state.user, first_name: payload.first_name, last_name: payload.last_name, phone: payload.phone}
+            }
         case PASSWORD_RESET_CONFIRM_FAIL:
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_FAIL:
         case ACTIVATION_SUCCESS:
         case ACTIVATION_FAIL:
         case PASSWORD_RESET_SUCCESS:
+        case PROFILE_CHANGE_FAIL:
             return{
                 ...state,
             }

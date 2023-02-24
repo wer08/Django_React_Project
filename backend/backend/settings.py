@@ -208,10 +208,10 @@ SOCIAL_AUTH_FACEBOOK_KEY = '863865814701236'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'c46ac4ab411f8da0f7b0ab7652641a12'
 
 SOCIAL_AUTH_FACEBOOK_SCOPE = [
-    'email',
+    'email'
 ]
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'email, first_name, last_name, phone'
+    'fields': 'email, first_name, last_name'
 }
 
 
