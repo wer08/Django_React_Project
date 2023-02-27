@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import Logged from "../components/Logged";
 import NotLogged from "../components/NotLogged";
 import axios from "axios";
-import { get_users } from "../actions/myProject";
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
@@ -12,11 +11,14 @@ const mapStateToProps = state => ({
  
 
 const Home = ({user,isAuthenticated}) => {
-    const users = get_users()
+
+
+
+
 
     return (
         <>
-        {isAuthenticated ? <Logged user={user} users={users}/> : <NotLogged />}
+        {isAuthenticated ? <Logged user={user}/> : <NotLogged />}
         </>
     )
 }

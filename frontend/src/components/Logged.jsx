@@ -1,11 +1,22 @@
-import { useEffect } from "react"
+import axios from "axios"
+import { useEffect, useState } from "react"
 import SplitPane from "react-split-pane"
 
-const Logged = ({user,users}) => {
+const Logged = ({user}) => {
+    const [users, setUsers] = useState(null)
 
-    // const mapped_users = users.map(user => <option value={user.email}>{user.email}</option>)
+    const get_users = async () => {
+        try{
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`);
+            console.log(res.data)
+            setUsers(res.data)
+        }catch(e){
+            console.log(e)
+        }
+    }
+
     useEffect(()=>{
-        console.log(users)
+        get_users()
     },[])
 
     try{
@@ -15,7 +26,7 @@ const Logged = ({user,users}) => {
                     <div className="form-group search p-3">
                         <input type='text' className="form-control" placeholder="Find user ..." list="users"></input>
                         <datalist id="users">
-                            
+                        {users.map(user => <option value={user.email} key={user.id}>{user.first_name} {user.last_name}</option>)}
                         </datalist>
                     </div>
                     <SplitPane split="vertical" minSize={50} defaultSize={500}>

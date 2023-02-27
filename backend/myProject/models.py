@@ -50,7 +50,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'phone': self.phone,
-            'contacts': self.contacts
+            'contacts': self.contacts,
+            'id': self.pk
         }
 
 

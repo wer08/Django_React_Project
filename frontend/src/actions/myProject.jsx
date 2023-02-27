@@ -39,12 +39,3 @@ export const change_profile_data = (data) => async dispatch => {
     }
 }
 
-export const get_users = () => async dispatch => {
-    try{
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`)
-        console.log(res.data)
-        return res.data
-    }catch(e){
-        console.log(e)
-    }
-}
