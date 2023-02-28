@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-from .models import Student, User
+from .models import Student, User, Message
 import json
 from django.views.decorators.csrf import csrf_exempt
 
@@ -40,4 +40,19 @@ def add_contact(request,pk_user):
             user.save()
             return HttpResponse(status=204)
 
+def get_convo(request):
+    if request.method == 'GET':
+        body = json.loads(request.body)
+        user_pk = body[user_pk]
+        contact_mail = body[contact_mail]
+        contact_pk = User.objects.get(email=contact_mail).pk
+        messages_sent = Message.objects.filter(sender = user_pk, receiver = contact_pk)
+        messages_sent = [message.serialize() for message in messages_sent]
+        messages_received = Message.objects.filter(sender = contact_pk, receiver = user_pk)
+        messages_received = [message.serialize() for message in messages_received]
+        response = {
+            'sent': messages_sent,
+            'received': messages_received
+        }
+        return JsonResponse(response)
 

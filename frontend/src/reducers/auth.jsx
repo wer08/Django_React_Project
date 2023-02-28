@@ -22,6 +22,8 @@ import {
     PROFILE_CHANGE_SUCCESS,
     GET_USERS_FAIL,
     GET_USERS_SUCCESS,
+    GET_CONVO_FAIL,
+    GET_CONVO_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -29,7 +31,9 @@ const initialState = {
     refresh : localStorage.getItem('refresh'),
     isAuthenticated: null,
     user: null,
-    users: null
+    users: null,
+    messages_sent: null,
+    messages_received: null
 }
 
 export default (state = initialState, action) => {
@@ -94,6 +98,12 @@ export default (state = initialState, action) => {
                 ...state,
                 users: payload
             }
+        case GET_CONVO_SUCCESS:
+            return{
+                ...state,
+                messages_sent: payload.sent,
+                messages_received: payload.received
+            }
         case PASSWORD_RESET_CONFIRM_FAIL:
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_FAIL:
@@ -102,6 +112,7 @@ export default (state = initialState, action) => {
         case PASSWORD_RESET_SUCCESS:
         case PROFILE_CHANGE_FAIL:
         case GET_USERS_FAIL:
+        case GET_CONVO_FAIL:
             return{
                 ...state,
             }

@@ -5,7 +5,9 @@ import {
     GET_USERS_FAIL,
     GET_USERS_SUCCESS,
     ADD_CONTACT_SUCCESS,
-    ADD_CONTACT_FAIL
+    ADD_CONTACT_FAIL,
+    GET_CONVO_FAIL,
+    GET_CONVO_SUCCESS
 
 } from "./types";
 
@@ -79,6 +81,9 @@ export const add_contact = (id_user, contact_email) => async dispatch => {
             type: ADD_CONTACT_FAIL
         })
     }
+}
+
+export const get_convo = (id, contact_email) => async dispatch => {
 
 }
 

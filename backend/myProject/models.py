@@ -62,14 +62,17 @@ class Student(models.Model):
     name = models.CharField(max_length=150)
     surname = models.CharField(max_length=120)
 
-class Conversation(models.Model):
-    participants = ArrayField(models.IntegerField(blank=True),null=True)
-    date_of_creation = models.DateTimeField(auto_created=True)
-
 class Message(models.Model):
     date_of_creation = models.DateTimeField(auto_created=True)
-    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='send_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
     body = models.CharField(max_length=3500)
+
+    def serialize(self):
+        return {
+            'date_of_creation': self.date_of_creation,
+            'body':self.body
+        }
 
 
 
