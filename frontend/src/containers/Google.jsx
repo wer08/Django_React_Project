@@ -2,7 +2,7 @@ import Navbar from '../components/Navbar'
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {googleAuthenticate} from '../actions/auth';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 
 const Google = ({googleAuthenticate, isAuthenticated}) => {
 
@@ -24,7 +24,7 @@ const Google = ({googleAuthenticate, isAuthenticated}) => {
 
     const logged = () => {
         return(
-            <h2>You are logged</h2>
+            <Navigate to="/"></Navigate>
         )
     }
     

@@ -9,7 +9,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('Users must have an email address')
         email = self.normalize_email(email)
-        user = self.model(email=email, **extrafields)
+        user = self.model(email=email,**extrafields)
         user.set_password(password)
         user.save()
 
@@ -32,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=12)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default = False)
-    contacts = ArrayField(models.IntegerField(blank=True),null=True)
+    contacts = ArrayField(models.CharField(blank=True, max_length=255),null=True,default=list)
 
     objects = UserManager()
 

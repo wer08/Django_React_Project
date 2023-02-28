@@ -21,14 +21,15 @@ import {
     PROFILE_CHANGE_FAIL,
     PROFILE_CHANGE_SUCCESS,
     GET_USERS_FAIL,
-    GET_USERS_SUCCESS
+    GET_USERS_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
     access: localStorage.getItem('access'),
     refresh : localStorage.getItem('refresh'),
     isAuthenticated: null,
-    user: null
+    user: null,
+    users: null
 }
 
 export default (state = initialState, action) => {
@@ -88,6 +89,11 @@ export default (state = initialState, action) => {
                 ...state,
                 user: {...state.user, first_name: payload.first_name, last_name: payload.last_name, phone: payload.phone}
             }
+        case GET_USERS_SUCCESS:
+            return{
+                ...state,
+                users: payload
+            }
         case PASSWORD_RESET_CONFIRM_FAIL:
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_FAIL:
@@ -96,7 +102,6 @@ export default (state = initialState, action) => {
         case PASSWORD_RESET_SUCCESS:
         case PROFILE_CHANGE_FAIL:
         case GET_USERS_FAIL:
-        case GET_USERS_SUCCESS:
             return{
                 ...state,
             }

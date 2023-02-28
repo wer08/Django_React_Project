@@ -22,7 +22,22 @@ def change_data(request,pk):
         user.phone = phone
         user.save()
         return HttpResponse(status = 204)
+    
+
 def get_users(request):
     users = User.objects.all()
     users = [user.serialize() for user in users]
     return JsonResponse(users,safe=False)
+
+
+def add_contact(request,pk_user):
+    user = User.objects.get(pk = pk_user)
+    if request.method == 'PUT':
+        body = json.loads(request.body)
+        contact_email = body['email']
+        if not contact_email in user.contacts:
+            user.contacts.append(contact_email)
+            user.save()
+            return HttpResponse(status=204)
+
+

@@ -2,7 +2,7 @@ import Navbar from '../components/Navbar'
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { facebookAuthenticate} from '../actions/auth';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 
 const Facebook = ({facebookAuthenticate, isAuthenticated}) => {
 
@@ -22,7 +22,7 @@ const Facebook = ({facebookAuthenticate, isAuthenticated}) => {
 
     const logged = () => {
         return(
-            <h2>You are logged</h2>
+            <Navigate to="/"></Navigate>
         )
     }
     
