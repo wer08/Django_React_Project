@@ -23,7 +23,11 @@ import {
     GET_USERS_FAIL,
     GET_USERS_SUCCESS,
     GET_CONVO_FAIL,
-    GET_CONVO_SUCCESS
+    GET_CONVO_SUCCESS,
+    ADD_MESSAGE_FAIL,
+    ADD_MESSAGE_SUCCESS,
+    GET_CONTACTS_FAIL,
+    GET_CONTACTS_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -32,8 +36,9 @@ const initialState = {
     isAuthenticated: null,
     user: null,
     users: null,
-    messages_sent: null,
-    messages_received: null
+    messages: null,
+    receiver: null,
+    contacts: null
 }
 
 export default (state = initialState, action) => {
@@ -101,8 +106,13 @@ export default (state = initialState, action) => {
         case GET_CONVO_SUCCESS:
             return{
                 ...state,
-                messages_sent: payload.sent,
-                messages_received: payload.received
+                messages: payload.messages,
+                receiver: payload.receiver
+            }
+        case GET_CONTACTS_SUCCESS:
+            return{
+                ...state,
+                contacts: payload
             }
         case PASSWORD_RESET_CONFIRM_FAIL:
         case PASSWORD_RESET_CONFIRM_SUCCESS:
@@ -113,6 +123,9 @@ export default (state = initialState, action) => {
         case PROFILE_CHANGE_FAIL:
         case GET_USERS_FAIL:
         case GET_CONVO_FAIL:
+        case ADD_MESSAGE_FAIL:
+        case ADD_MESSAGE_SUCCESS:
+        case GET_CONTACTS_FAIL:
             return{
                 ...state,
             }

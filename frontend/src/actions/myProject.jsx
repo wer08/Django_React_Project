@@ -7,8 +7,11 @@ import {
     ADD_CONTACT_SUCCESS,
     ADD_CONTACT_FAIL,
     GET_CONVO_FAIL,
-    GET_CONVO_SUCCESS
-
+    GET_CONVO_SUCCESS,
+    ADD_MESSAGE_FAIL,
+    ADD_MESSAGE_SUCCESS,
+    GET_CONTACTS_FAIL,
+    GET_CONTACTS_SUCCESS
 } from "./types";
 
 axios.defaults.withCredentials = true;
@@ -59,6 +62,21 @@ export const get_users = () => async dispatch => {
     }
 }
 
+export const get_contacts = (id) => async dispatch => {
+    try{
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_contacts?id=${id}`);
+        dispatch({
+            type: GET_CONTACTS_SUCCESS,
+            payload: res.data
+        })
+    }catch(e){
+        console.log(e)
+        dispatch({
+            type: GET_CONTACTS_FAIL
+        })
+    }
+}
+
 export const add_contact = (id_user, contact_email) => async dispatch => {
     try{
 
@@ -84,6 +102,44 @@ export const add_contact = (id_user, contact_email) => async dispatch => {
 }
 
 export const get_convo = (id, contact_email) => async dispatch => {
+    try{
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_convo?id=${id}&email=${contact_email}`);
+        dispatch({
+            type: GET_CONVO_SUCCESS,
+            payload: res.data
+        })
+    }catch(e){
+        console.log(e)
+        dispatch({
+            type: GET_CONVO_FAIL
+        })
+    }
+}
 
+export const add_message = (id, contact_email, text) => async dispatch => {
+    console.log('add messafge')
+    try{
+        const config = {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }
+        const body = {
+            contact_email: contact_email,
+            pk: id,
+            text: text
+        }
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/add_message`,body,config);
+        dispatch({
+            type: ADD_MESSAGE_SUCCESS
+        })
+
+        dispatch(get_convo(id, contact_email))
+    }catch(e){
+        console.log(e);
+        dispatch({
+            type: ADD_MESSAGE_FAIL
+        })
+    }
 }
 

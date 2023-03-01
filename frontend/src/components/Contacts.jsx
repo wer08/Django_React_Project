@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { add_contact } from "../actions/myProject"
+import { add_contact, get_convo } from "../actions/myProject"
 
-const Contacts = ({user, users, add_contact}) => {
+const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => {
     const [contact, setContact] = useState("")
-
 
     const onSubmit = (e)=>{
         try{
@@ -14,12 +13,18 @@ const Contacts = ({user, users, add_contact}) => {
             console.log(e)
         }
     }
-    const contacts = () => 
+    const contact_list = () => 
     {
         return(
-            user && user.contacts.map((contact)=><li className="list-group-item click" key={contact}>{contact}</li>)
+            contacts && contacts.map((contact)=><button className={receiver===contact.email?"list-group-item click contact text-start active_conv":"list-group-item click contact text-start"}  key={contact.id} value={contact.email} onClick={onClick}><img src={contact.profile_pic} alt="Profile pic" width="500" height="600"></img>{contact.first_name} {contact.last_name}</button>)
         )
     }
+
+    const onClick = (e) => {
+        const value = e.target.value
+        get_convo(user.id, value)
+    }
+
     return ( 
     <div>
         <form onSubmit={e=>onSubmit(e)}>
@@ -31,15 +36,17 @@ const Contacts = ({user, users, add_contact}) => {
             </div>
             <button type="submit" className="btn btn-primary ms-3">Add contact</button>              
         </form>
-    <ul className="list-group mt-3">
-        {contacts()}
-    </ul>
+        <div className="list-group mt-3">
+            {contact_list()}
+        </div>
     </div>
      );
 }
 const mapStateToProps = state => ({
     users: state.auth.users,
-    user: state.auth.user
+    user: state.auth.user,
+    contacts: state.auth.contacts,
+    receiver: state.auth.receiver
 });
  
-export default connect(mapStateToProps,{add_contact})(Contacts);
+export default connect(mapStateToProps,{add_contact,get_convo})(Contacts);

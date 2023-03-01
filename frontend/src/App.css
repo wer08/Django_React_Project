@@ -1,3 +1,21 @@
 .click:hover{
     cursor: pointer;
 }
+.sent{
+    background-color: rgb(0, 132, 255);
+    color: white;
+    margin: 2px
+}
+.received{
+    background-color: #e4e6eb;
+    margin: 2px
+}
+.contact{
+    border: none;
+}
+.contact:hover{
+    background-color: #e4e6eb;
+}
+.active_conv{
+    background-color: #ecf3ff;
+}

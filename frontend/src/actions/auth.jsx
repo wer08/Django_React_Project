@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { get_contacts } from './myProject';
 import {
     LOGIN_SUCCES,
     LOGIN_FAIL,
@@ -174,6 +175,7 @@ export const load_user = () => async dispatch => {
                 type: LOAD_USER_SUCCES,
                 payload: res.data
             })
+            dispatch(get_contacts(res.data.id))
         } catch(e){
             dispatch({
                 type: LOAD_USER_FAIL

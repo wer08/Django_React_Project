@@ -12,3 +12,4 @@ pandas
 social-auth-app-django
 django-debug-toolbar
 django-vite
+pillow

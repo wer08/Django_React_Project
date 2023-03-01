@@ -33,6 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default = False)
     contacts = ArrayField(models.CharField(blank=True, max_length=255),null=True,default=list)
+    profile_pic = models.ImageField(upload_to='media', default='media/profile.png')
 
     objects = UserManager()
 
@@ -51,7 +52,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             'last_name': self.last_name,
             'phone': self.phone,
             'contacts': self.contacts,
-            'id': self.pk
+            'id': self.pk,
+            'profile_pic': self.profile_pic.url
         }
 
 
@@ -63,15 +65,18 @@ class Student(models.Model):
     surname = models.CharField(max_length=120)
 
 class Message(models.Model):
-    date_of_creation = models.DateTimeField(auto_created=True)
+    date_of_creation = models.DateTimeField(auto_now_add=True, blank=True)
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='send_messages')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
     body = models.CharField(max_length=3500)
 
     def serialize(self):
         return {
+            'id': self.pk,
             'date_of_creation': self.date_of_creation,
-            'body':self.body
+            'body':self.body,
+            'sender': self.sender.pk,
+            'receiver': self.receiver.pk
         }
 
 
