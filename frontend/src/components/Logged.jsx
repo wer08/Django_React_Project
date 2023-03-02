@@ -2,8 +2,8 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import SplitPane from "react-split-pane"
-import Contacts from "../components/Contacts"
-import Conversation from "../components/Conversation"
+import Contacts from "./Contacts"
+import Conversation from "./Conversation"
 
 
 const Logged = () => {

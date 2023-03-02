@@ -13,10 +13,19 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => 
             console.log(e)
         }
     }
+
+
     const contact_list = () => 
     {
         return(
-            contacts && contacts.map((contact)=><button className={receiver===contact.email?"list-group-item click contact text-start active_conv":"list-group-item click contact text-start"}  key={contact.id} value={contact.email} onClick={onClick}><img src={contact.profile_pic} alt="Profile pic" width="500" height="600"></img>{contact.first_name} {contact.last_name}</button>)
+            contacts && contacts.map((contact)=>
+            <button 
+                className={receiver===contact.email?"list-group-item click contact text-start active_conv me-3":"list-group-item click contact text-start me-3c"}  
+                key={contact.id} 
+                value={contact.email} 
+                onClick={onClick}>
+                    <img src={contact.profile_pic} alt="Profile pic" width="40" height="40" className="me-2 img"></img>{contact.first_name} {contact.last_name}
+            </button>)
         )
     }
 
@@ -36,7 +45,7 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => 
             </div>
             <button type="submit" className="btn btn-primary ms-3">Add contact</button>              
         </form>
-        <div className="list-group mt-3">
+        <div className="list-group mt-3 contact_list">
             {contact_list()}
         </div>
     </div>

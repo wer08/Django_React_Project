@@ -23,19 +23,24 @@ export const change_profile_data = (data) => async dispatch => {
     {
         const config = {
             headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }
         }
-        const body = {
+        const json_body = JSON.stringify({
             first_name: data.first_name,
             last_name: data.last_name,
             phone: data.phone,
-        }
+        })
+
+        const formData = new FormData();
+        formData.append("picture", data.profile_pic)
+        formData.append("body", json_body)
+
         try{
-            await axios.put(`${import.meta.env.VITE_API_URL}/change_data/${data.id}`,body,config)
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/change_data/${data.id}`,formData,config)
             dispatch({
                 type: PROFILE_CHANGE_SUCCESS,
-                payload: body
+                payload: res.data
             })
 
         }catch(e){

@@ -96,7 +96,7 @@ export default (state = initialState, action) => {
         case PROFILE_CHANGE_SUCCESS:
             return{
                 ...state,
-                user: {...state.user, first_name: payload.first_name, last_name: payload.last_name, phone: payload.phone}
+                user: {...state.user, first_name: payload.first_name, last_name: payload.last_name, phone: payload.phone, profile_pic: payload.profile_pic}
             }
         case GET_USERS_SUCCESS:
             return{

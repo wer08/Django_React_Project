@@ -13,16 +13,20 @@ from operator import itemgetter
 # Create your views here.
 def change_data(request,pk):
     user = User.objects.get(pk = pk)
-    if request.method == 'PUT':
-        body = json.loads(request.body)
+    if request.method == 'POST':
+        data = request.POST
+        picture = request.FILES
+        body = json.loads(data.get("body"))
         first_name = body['first_name']
         last_name = body['last_name']
         phone = body['phone']
         user.first_name = first_name
         user.last_name = last_name
         user.phone = phone
+        if picture.get("picture"):
+            user.profile_pic = picture.get("picture")
         user.save()
-        return HttpResponse(status = 204)
+        return JsonResponse(user.serialize())
     
 
 def get_users(request):
@@ -43,7 +47,6 @@ def add_contact(request,pk_user):
         
 def get_contacts(request):
     id=request.GET.get('id',"")
-    print(f'id is : {id}')
     user = User.objects.get(pk = id)
     contacts = [User.objects.get(email = contact).serialize() for contact in user.contacts]
     return JsonResponse(contacts, safe=False)

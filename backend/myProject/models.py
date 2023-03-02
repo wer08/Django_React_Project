@@ -53,7 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             'phone': self.phone,
             'contacts': self.contacts,
             'id': self.pk,
-            'profile_pic': self.profile_pic.url
+            'profile_pic': f'http://localhost:8000{self.profile_pic.url}'
         }
 
 
