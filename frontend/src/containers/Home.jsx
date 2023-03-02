@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import Logged from "./Logged";
+import Logged from "../components/Logged";
 import NotLogged from "../components/NotLogged";
 import axios from "axios";
 

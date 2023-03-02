@@ -1,18 +1,21 @@
 .click:hover{
     cursor: pointer;
 }
+.hidden{
+    visibility: hidden;
+}
 .sent{
     background-color: rgb(0, 132, 255);
     color: white;
     margin: 2px;
-    max-width: 50%;
+    max-width: 75%;
     border: none;
     border-radius: 8px;
 }
 .received{
     background-color: #e4e6eb;
     margin: 2px;
-    max-width: 50%;
+    max-width: 75%;
     border: none;
     border-radius: 8px;
 }
@@ -42,14 +45,19 @@
 .new_message{
     position: fixed;
     bottom: 0%;
-    width: 80%;
+    width: 77%;
     margin-bottom: 20px;
 }
 .convo{
     overflow-y: scroll;
-    height: 70vh;
+    height: 80vh;
+    padding-bottom: 20px;
 }
 .contact_list{
     overflow-y: auto;
     height: 100%;
+}
+.logged{
+    max-height: 26px;
+    background-color: blue;
 }

@@ -38,7 +38,7 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => 
     <div>
         <form onSubmit={e=>onSubmit(e)}>
             <div className="form-group search p-3">
-                <input type='text' className="form-control" placeholder="Find user ..." list="users" value={contact} onChange={e=>setContact(e.target.value)}></input>
+                <input type='search' className="form-control" placeholder="Find user ..." list="users" value={contact} onChange={e=>setContact(e.target.value)}></input>
                 <datalist id="users">
                 {users && users.map(user => <option value={user.email} key={user.id}>{user.first_name} {user.last_name}</option>)}
                 </datalist>

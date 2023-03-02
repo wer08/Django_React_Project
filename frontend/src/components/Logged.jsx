@@ -11,12 +11,12 @@ const Logged = () => {
 
     try{
         return(
-            <div>
-                <SplitPane split="vertical" minSize={50} defaultSize={300}>
+            <>
+                <SplitPane split="vertical" minSize={50} defaultSize={300} paneStyle={{maxHeight: '26px'}}>
                     <Contacts />
                     <Conversation />
                 </SplitPane>
-            </div>
+            </>
         )
     }
     catch(e){
