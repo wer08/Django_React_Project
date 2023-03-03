@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { add_contact, get_convo } from "../actions/myProject"
 
-const Contacts = ({user, users, contacts, add_contact, get_convo, receiver, paneStyle}) => {
+const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => {
     const [contact, setContact] = useState("")
 
     const onSubmit = (e)=>{
@@ -17,21 +17,23 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver, pane
 
     const contact_list = () => 
     {
+        contacts && contacts.map(contact => console.log(contact.id,receiver))
         return(
             contacts && contacts.map((contact)=>
             <button 
-                className={receiver===contact.email?"list-group-item click contact text-start active_conv me-3":"list-group-item click contact text-start me-3c"}  
+                className={receiver==contact.id?"list-group-item click contact text-start active_conv me-3 mb-2":"list-group-item click contact text-start me-3 mb-2"}  
                 key={contact.id} 
                 value={contact.email} 
-                onClick={onClick}>
+                onClick={onClick}
+                name={contact.id}>
                     <img src={contact.profile_pic} alt="Profile pic" width="40" height="40" className="me-2 img"></img>{contact.first_name} {contact.last_name}
             </button>)
         )
     }
 
     const onClick = (e) => {
-        const value = e.target.value
-        get_convo(user.id, value)
+        const id = e.target.name
+        get_convo(user.id, id)
     }
 
     return ( 

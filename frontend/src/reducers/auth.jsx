@@ -27,7 +27,9 @@ import {
     ADD_MESSAGE_FAIL,
     ADD_MESSAGE_SUCCESS,
     GET_CONTACTS_FAIL,
-    GET_CONTACTS_SUCCESS
+    GET_CONTACTS_SUCCESS,
+    DELETE_MESSAGE_FAIL,
+    DELETE_MESSAGE_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -126,6 +128,8 @@ export default (state = initialState, action) => {
         case ADD_MESSAGE_FAIL:
         case ADD_MESSAGE_SUCCESS:
         case GET_CONTACTS_FAIL:
+        case DELETE_MESSAGE_FAIL:
+        case DELETE_MESSAGE_SUCCESS:
             return{
                 ...state,
             }

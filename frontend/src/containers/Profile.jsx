@@ -14,6 +14,7 @@ const Profile = ({user, change_profile_data}) => {
         id: "",
         profile_pic: "",
     })
+    
 
 
     useEffect(()=>{

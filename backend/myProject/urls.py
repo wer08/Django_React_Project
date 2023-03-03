@@ -8,6 +8,7 @@ urlpatterns = [
     path('add_contact/<int:pk_user>', views.add_contact, name='add_contact'),
     path('get_convo', views.get_convo, name='get_convo'),
     path('add_message', views.add_message, name='add_message'),
-    path('get_contacts', views.get_contacts, name='get_contacts')
+    path('get_contacts', views.get_contacts, name='get_contacts'),
+    path('delete_message/<int:id>', views.delete_message, name='delete_message')
 
 ]

@@ -40,9 +40,12 @@ def add_contact(request,pk_user):
     if request.method == 'PUT':
         body = json.loads(request.body)
         contact_email = body['email']
+        contact = User.objects.get(email = contact_email)
         if not contact_email in user.contacts:
             user.contacts.append(contact_email)
+            contact.contacts.append(user.email)
             user.save()
+            contact.save()
             return HttpResponse(status=204)
         
 def get_contacts(request):
@@ -52,9 +55,8 @@ def get_contacts(request):
     return JsonResponse(contacts, safe=False)
 
 def get_convo(request):
-    user_pk = request.GET.get('id',"")
-    contact_mail = request.GET.get('email',"")
-    contact_pk = User.objects.get(email=contact_mail).pk
+    user_pk = request.GET.get('user_id',"")
+    contact_pk = request.GET.get('contact_id',"")
     messages_sent = Message.objects.filter(sender = user_pk, receiver = contact_pk)
     messages_sent = [message.serialize() for message in messages_sent]
     messages_received = Message.objects.filter(sender = contact_pk, receiver = user_pk)
@@ -66,19 +68,26 @@ def get_convo(request):
     messages_sorted = sorted(messages, key=itemgetter('date_of_creation'))
     resp = {
         'messages': messages_sorted,
-        'receiver': contact_mail
+        'receiver': contact_pk
     }
     return JsonResponse(resp)
 
 def add_message(request):
     if request.method == 'POST':
         body = json.loads(request.body)
-        contact_email = body['contact_email']
-        contact = User.objects.get(email=contact_email)
+        id = body['contact_id']
+        contact = User.objects.get(pk=id)
         user = User.objects.get(pk = body['pk'])
         text = body['text']
         message = Message(sender=user,receiver=contact,body=text)
         message.save()
         return HttpResponse(status=204)
+
+def delete_message(request,id):
+    if request.method == 'DELETE':
+        message = Message.objects.get(pk=id)
+        message.delete()
+        return HttpResponse(status=204)
+
 
 

@@ -11,7 +11,9 @@ import {
     ADD_MESSAGE_FAIL,
     ADD_MESSAGE_SUCCESS,
     GET_CONTACTS_FAIL,
-    GET_CONTACTS_SUCCESS
+    GET_CONTACTS_SUCCESS,
+    DELETE_MESSAGE_FAIL,
+    DELETE_MESSAGE_SUCCESS,
 } from "./types";
 
 axios.defaults.withCredentials = true;
@@ -106,9 +108,9 @@ export const add_contact = (id_user, contact_email) => async dispatch => {
     }
 }
 
-export const get_convo = (id, contact_email) => async dispatch => {
+export const get_convo = (user_id, contact_id) => async dispatch => {
     try{
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_convo?id=${id}&email=${contact_email}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_convo?user_id=${user_id}&contact_id=${contact_id}`);
         dispatch({
             type: GET_CONVO_SUCCESS,
             payload: res.data
@@ -121,8 +123,8 @@ export const get_convo = (id, contact_email) => async dispatch => {
     }
 }
 
-export const add_message = (id, contact_email, text) => async dispatch => {
-    console.log('add messafge')
+export const add_message = (id, contact_id, text) => async dispatch => {
+
     try{
         const config = {
             headers:{
@@ -130,7 +132,7 @@ export const add_message = (id, contact_email, text) => async dispatch => {
             }
         }
         const body = {
-            contact_email: contact_email,
+            contact_id: contact_id,
             pk: id,
             text: text
         }
@@ -139,7 +141,7 @@ export const add_message = (id, contact_email, text) => async dispatch => {
             type: ADD_MESSAGE_SUCCESS
         })
 
-        dispatch(get_convo(id, contact_email))
+        dispatch(get_convo(id, contact_id))
     }catch(e){
         console.log(e);
         dispatch({
@@ -147,4 +149,22 @@ export const add_message = (id, contact_email, text) => async dispatch => {
         })
     }
 }
+
+export const delMessage = (message_id,user_id, contact_id) => async dispatch => {
+    try{
+        await axios.delete(`${import.meta.env.VITE_API_URL}/delete_message/${message_id}`)
+
+        dispatch({
+            type: DELETE_MESSAGE_SUCCESS
+        })
+        dispatch(get_convo(user_id, contact_id))
+    }
+    catch{
+        dispatch({
+            type: DELETE_MESSAGE_FAIL
+        })
+    }
+
+}
+
 

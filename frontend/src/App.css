@@ -8,16 +8,20 @@
     background-color: rgb(0, 132, 255);
     color: white;
     margin: 2px;
-    max-width: 75%;
+    max-width: 50vw;
     border: none;
     border-radius: 8px;
+    white-space: normal;
+    word-wrap: break-word
 }
 .received{
     background-color: #e4e6eb;
     margin: 2px;
-    max-width: 75%;
+    max-width: 50vw;
     border: none;
     border-radius: 8px;
+    white-space: normal;
+    word-wrap: break-word
 }
 .contact{
     border: none;
@@ -42,22 +46,42 @@
     opacity: 50%;
 }
 
-.new_message{
+.new_message_form{
     position: fixed;
     bottom: 0%;
-    width: 77%;
+    width: 100%;
     margin-bottom: 20px;
+    display: inline;
+}
+.new_message{
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    width: 75%;
 }
 .convo{
     overflow-y: scroll;
-    height: 80vh;
+    height: 78vh;
     padding-bottom: 20px;
 }
+
+.emojiPicker{
+    display: none;
+}
+
 .contact_list{
     overflow-y: auto;
     height: 100%;
 }
-.logged{
-    max-height: 26px;
-    background-color: blue;
+.icon{
+    opacity: 50%;
+    border: none;
+    border-radius: 50%;
 }
+.icon:hover{
+    background-color: #afafaf;
+    cursor: pointer;
+}
+.custom-tooltip {
+    --bs-tooltip-bg: #363535;
+    --bs-tooltip-color: white;
+  }

@@ -73,7 +73,7 @@ class Message(models.Model):
     def serialize(self):
         return {
             'id': self.pk,
-            'date_of_creation': self.date_of_creation,
+            'date_of_creation': self.date_of_creation.strftime("%d %B %Y, %H:%M:%S"),
             'body':self.body,
             'sender': self.sender.pk,
             'receiver': self.receiver.pk
