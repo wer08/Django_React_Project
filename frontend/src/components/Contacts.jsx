@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { add_contact, get_convo } from "../actions/myProject"
 
-const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => {
+const Contacts = ({user, users, contacts, add_contact, get_convo, receiver, paneStyle}) => {
     const [contact, setContact] = useState("")
 
     const onSubmit = (e)=>{

@@ -12,7 +12,7 @@ const Logged = () => {
     try{
         return(
             <>
-                <SplitPane split="vertical" minSize={50} defaultSize={300} paneStyle={{maxHeight: '26px'}}>
+                <SplitPane split="vertical" minSize={50} defaultSize={300}>
                     <Contacts />
                     <Conversation />
                 </SplitPane>

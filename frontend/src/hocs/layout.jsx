@@ -16,7 +16,7 @@ const Layout = ({check_authentication, load_user, children, get_users}) => {
 
 
     return (  
-        <div>
+        <div style={{position: 'relative',height: '87vh'}}>
             <Navbar />
             {children}
         </div>
