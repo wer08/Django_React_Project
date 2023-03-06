@@ -6,6 +6,7 @@ import ReceivedMessage from "./ReceivedMessage";
 import EmojiPicker from "emoji-picker-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIcons } from "@fortawesome/free-solid-svg-icons";
+import { checkText } from "smile2emoji";
 
 
 
@@ -53,7 +54,6 @@ const Conversation = ({messages,user, receiver, add_message}) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        console.log('submitting')
         add_message(user.id, receiver, message)
         setMessage("")
     }
@@ -63,13 +63,23 @@ const Conversation = ({messages,user, receiver, add_message}) => {
         setMessage(`${message} ${e.emoji}`)
     }
 
+    const onFocus = ()=>{
+        setIsHidden(true)
+    }
+
+    const onChange = (e)=>{
+        const text = checkText(e.target.value)
+        setMessage(text)
+    }
+
 
     return ( 
-        <div className="me-5 mt-3">
+        <div className="convo-wrapper mt-3" style={{display: 'flex', flexDirection: 'column', position: 'realtive'}}>
             {messages?<div className="list-group border convo pt-3" >{conversation()}</div>:<div className="d-flex justify-content-center align-items-center border convo"><h1 className="emptyConvo">Select contact to open conversation</h1></div> }
-            {messages && <>                
-            <form className="form-group new_message_form " onSubmit={e=>onSubmit(e)}>          
-                {/* <div className={isHidden ? 'emojiPicker' : ""}><EmojiPicker onEmojiClick={e=>onEmojiClick(e)}/></div>
+            {messages && <>
+            <div style={{position: 'absolute', top: '180px'}} className={isHidden ? 'emojiPicker' : ""}><EmojiPicker onEmojiClick={e=>onEmojiClick(e)}/></div>                
+            <form className="form-group new_message_form " onSubmit={e=>onSubmit(e)} onFocus={()=>onFocus()}>
+                <input className="form-control new_message " type="search" autoComplete="off" name="new_message" value={message} placeholder="Aa" onChange={(e)=>onChange(e)}></input>
                 <FontAwesomeIcon 
                 icon={faIcons} 
                 className='icon emoji p-2'
@@ -78,10 +88,10 @@ const Conversation = ({messages,user, receiver, add_message}) => {
                 data-bs-custom-class="custom-tooltip"
                 data-bs-title="Show emojis"
                 data-bs-trigger='hover'
-                onClick={onClick}/> */}
-                <input className="form-control new_message " type="search" name="new_message" value={message} placeholder="Aa" onChange={(e)=>setMessage(e.target.value)}></input>
-
-            </form></>}
+                onClick={onClick}/>
+            </form>
+            
+            </>}
         </div>
     );
 }

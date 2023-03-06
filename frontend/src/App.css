@@ -25,6 +25,18 @@
 }
 .contact{
     border: none;
+    margin-right: 15px;
+}
+.convo-wrapper{
+    margin-right: 50px;
+}
+@media (max-width: 500px) {
+    .contact{
+        margin-right: 0;
+    }
+    .convo-wrapper{
+        margin-right: 0;
+    }
 }
 .contact:hover{
     background-color: #e4e6eb;
@@ -49,15 +61,18 @@
 .new_message_form{
     position: fixed;
     bottom: 0%;
-    width: 100%;
+    width: 77%;
     margin-bottom: 20px;
-    display: inline;
+    display: flex;
+    flex-direction: row;
 }
 .new_message{
     border-radius: 20px;
     background-color: #f0f0f0;
     width: 75%;
+    flex-grow: 2;
 }
+
 .convo{
     overflow-y: scroll;
     height: 78vh;
@@ -85,3 +100,7 @@
     --bs-tooltip-bg: #363535;
     --bs-tooltip-color: white;
   }
+.navbar{
+    opacity: 75%
+}
+

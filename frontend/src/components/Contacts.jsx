@@ -17,11 +17,10 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => 
 
     const contact_list = () => 
     {
-        contacts && contacts.map(contact => console.log(contact.id,receiver))
         return(
             contacts && contacts.map((contact)=>
             <button 
-                className={receiver==contact.id?"list-group-item click contact text-start active_conv me-3 mb-2":"list-group-item click contact text-start me-3 mb-2"}  
+                className={receiver==contact.id?"list-group-item click contact text-start active_conv mb-2":"list-group-item click contact text-start mb-2"}  
                 key={contact.id} 
                 value={contact.email} 
                 onClick={onClick}
@@ -45,7 +44,7 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver}) => 
                 {users && users.map(user => <option value={user.email} key={user.id}>{user.first_name} {user.last_name}</option>)}
                 </datalist>
             </div>
-            <button type="submit" className="btn btn-primary ms-3">Add contact</button>              
+            <button type="submit" className="btn btn-primary ms-3">Add</button>              
         </form>
         <div className="list-group mt-3 contact_list">
             {contact_list()}
