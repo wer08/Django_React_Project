@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { add_message } from "../actions/myProject";
+import { add_message, get_convo } from "../actions/myProject";
 import SentMessage from "./SentMessage";
 import ReceivedMessage from "./ReceivedMessage";
 import EmojiPicker from "emoji-picker-react";
@@ -10,10 +10,12 @@ import { checkText } from "smile2emoji";
 
 
 
-const Conversation = ({messages,user, receiver, add_message}) => {
+
+const Conversation = ({messages,user, receiver, add_message, get_convo}) => {
 
     const [message, setMessage] = useState("")
     const [isHidden, setIsHidden] = useState(true)
+    const [counter, setCounter] = useState(1)
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
@@ -27,6 +29,7 @@ const Conversation = ({messages,user, receiver, add_message}) => {
     const onClick = () => {
         setIsHidden(!isHidden)
     }
+
 
 
     const conversation = () => {
@@ -56,10 +59,10 @@ const Conversation = ({messages,user, receiver, add_message}) => {
         e.preventDefault()
         add_message(user.id, receiver, message)
         setMessage("")
+        setCounter(1)
     }
 
     const onEmojiClick = e=>{
-        console.log(e)
         setMessage(`${message} ${e.emoji}`)
     }
 
@@ -72,10 +75,18 @@ const Conversation = ({messages,user, receiver, add_message}) => {
         setMessage(text)
     }
 
+    const onScroll = e => {
+        if(e.target.scrollTop == 0)
+        {
+            get_convo(user.id,receiver,counter+1);
+            setCounter(counter => counter+1)
+        }
+    }
+
 
     return ( 
         <div className="convo-wrapper mt-3" style={{display: 'flex', flexDirection: 'column', position: 'realtive'}}>
-            {messages?<div className="list-group border convo pt-3" >{conversation()}</div>:<div className="d-flex justify-content-center align-items-center border convo"><h1 className="emptyConvo">Select contact to open conversation</h1></div> }
+            {messages?<div className="list-group border convo pt-3" onScroll={(e)=>onScroll(e)} >{conversation()}</div>:<div className="d-flex justify-content-center align-items-center border convo"><h1 className="emptyConvo">Select contact to open conversation</h1></div> }
             {messages && <>
             <div style={{position: 'absolute', top: '180px'}} className={isHidden ? 'emojiPicker' : ""}><EmojiPicker onEmojiClick={e=>onEmojiClick(e)}/></div>                
             <form className="form-group new_message_form " onSubmit={e=>onSubmit(e)} onFocus={()=>onFocus()}>
@@ -100,4 +111,4 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
     receiver: state.auth.receiver
 })
-export default connect(mapStateToProps,{add_message})(Conversation);
+export default connect(mapStateToProps,{add_message, get_convo})(Conversation);

@@ -10,6 +10,7 @@ from operator import itemgetter
 
 
 
+
 # Create your views here.
 def change_data(request,pk):
     user = User.objects.get(pk = pk)
@@ -54,23 +55,43 @@ def get_contacts(request):
     contacts = [User.objects.get(email = contact).serialize() for contact in user.contacts]
     return JsonResponse(contacts, safe=False)
 
+def get_statuses(request):
+    id = request.GET.get('id',"")
+    user = User.objects.get(pk=id)
+    statuses = {}
+    for message in user.received_messages.all():
+        if not message.is_read:
+            statuses[message.sender.pk] = False
+        else:
+            statuses[message.sender.pk] = True
+    return JsonResponse(statuses)
+
+
+
+
 def get_convo(request):
     user_pk = request.GET.get('user_id',"")
     contact_pk = request.GET.get('contact_id',"")
+    page = request.GET.get('page',"")
+    number = int(page) * 20
     messages_sent = Message.objects.filter(sender = user_pk, receiver = contact_pk)
     messages_sent = [message.serialize() for message in messages_sent]
     messages_received = Message.objects.filter(sender = contact_pk, receiver = user_pk)
+    for message in messages_received:
+        message.is_read = True
+        message.save()
     messages_received = [message.serialize() for message in messages_received]
     if int(user_pk) != int(contact_pk):
         messages = messages_sent + messages_received
     else:
-        messages = messages_sent
-    messages_sorted = sorted(messages, key=itemgetter('date_of_creation'))
+        messages = messages_received
+    messages_sorted = sorted(messages, key=itemgetter('date_of_creation'))[-number:]
     resp = {
         'messages': messages_sorted,
         'receiver': contact_pk
     }
     return JsonResponse(resp)
+
 
 def add_message(request):
     if request.method == 'POST':

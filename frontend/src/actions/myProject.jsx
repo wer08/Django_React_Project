@@ -12,6 +12,8 @@ import {
     ADD_MESSAGE_SUCCESS,
     GET_CONTACTS_FAIL,
     GET_CONTACTS_SUCCESS,
+    GET_STATUSES_FAIL,
+    GET_STATUSES_SUCCESS,
     DELETE_MESSAGE_FAIL,
     DELETE_MESSAGE_SUCCESS,
 } from "./types";
@@ -84,6 +86,21 @@ export const get_contacts = (id) => async dispatch => {
     }
 }
 
+export const get_statuses = (id) => async dispatch => {
+    try{
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_statuses?id=${id}`);
+        dispatch({
+            type: GET_STATUSES_SUCCESS,
+            payload: res.data
+        })
+    }catch(e){
+        console.log(e)
+        dispatch({
+            type: GET_STATUSES_FAIL
+        })
+    }
+}
+
 export const add_contact = (id_user, contact_email) => async dispatch => {
     try{
 
@@ -108,9 +125,10 @@ export const add_contact = (id_user, contact_email) => async dispatch => {
     }
 }
 
-export const get_convo = (user_id, contact_id) => async dispatch => {
+export const get_convo = (user_id, contact_id, page) => async dispatch => {
+    console.log('get_convo')
     try{
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_convo?user_id=${user_id}&contact_id=${contact_id}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_convo?user_id=${user_id}&contact_id=${contact_id}&page=${page}`);
         dispatch({
             type: GET_CONVO_SUCCESS,
             payload: res.data
@@ -141,7 +159,7 @@ export const add_message = (id, contact_id, text) => async dispatch => {
             type: ADD_MESSAGE_SUCCESS
         })
 
-        dispatch(get_convo(id, contact_id))
+        dispatch(get_convo(id, contact_id, 1))
     }catch(e){
         console.log(e);
         dispatch({

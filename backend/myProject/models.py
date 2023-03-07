@@ -69,6 +69,7 @@ class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='send_messages')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
     body = models.CharField(max_length=3500)
+    is_read = models.BooleanField(default=False)
 
     def serialize(self):
         return {
@@ -76,7 +77,8 @@ class Message(models.Model):
             'date_of_creation': self.date_of_creation.strftime("%d %B %Y, %H:%M:%S"),
             'body':self.body,
             'sender': self.sender.pk,
-            'receiver': self.receiver.pk
+            'receiver': self.receiver.pk,
+            'is_read': self.is_read
         }
 
 
