@@ -11,7 +11,7 @@ import { checkText } from "smile2emoji";
 
 
 
-const Conversation = ({messages,user, receiver, add_message, get_convo}) => {
+const Conversation = ({messages,user, receiver, add_message, get_convo, numberOfPages}) => {
 
     const [message, setMessage] = useState("")
     const [isHidden, setIsHidden] = useState(true)
@@ -78,6 +78,10 @@ const Conversation = ({messages,user, receiver, add_message, get_convo}) => {
     const onScroll = e => {
         if(e.target.scrollTop == 0)
         {
+            console.log(counter, numberOfPages)
+            if (counter >= numberOfPages){
+                return
+            }
             get_convo(user.id,receiver,counter+1);
             setCounter(counter => counter+1)
         }
@@ -109,6 +113,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo}) => {
 const mapStateToProps = (state) => ({
     messages: state.auth.messages,
     user: state.auth.user,
-    receiver: state.auth.receiver
+    receiver: state.auth.receiver,
+    numberOfPages: state.auth.numberOfPages
 })
 export default connect(mapStateToProps,{add_message, get_convo})(Conversation);

@@ -85,10 +85,12 @@ def get_convo(request):
         messages = messages_sent + messages_received
     else:
         messages = messages_received
+    number_of_pages = (len(messages) // 20) + 1
     messages_sorted = sorted(messages, key=itemgetter('date_of_creation'))[-number:]
     resp = {
         'messages': messages_sorted,
-        'receiver': contact_pk
+        'receiver': contact_pk,
+        'number_of_pages': number_of_pages
     }
     return JsonResponse(resp)
 

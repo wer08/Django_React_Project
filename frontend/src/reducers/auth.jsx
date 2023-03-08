@@ -43,7 +43,8 @@ const initialState = {
     messages: null,
     receiver: null,
     contacts: null,
-    statuses: null
+    statuses: null,
+    numberOfPages: null
 }
 
 export default (state = initialState, action) => {
@@ -112,7 +113,8 @@ export default (state = initialState, action) => {
             return{
                 ...state,
                 messages: payload.messages,
-                receiver: payload.receiver
+                receiver: payload.receiver,
+                numberOfPages: payload.number_of_pages
             }
         case GET_CONTACTS_SUCCESS:
             return{

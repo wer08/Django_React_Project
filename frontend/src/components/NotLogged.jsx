@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const NotLogged = () => {
     return ( 
-        <div className="container">
+        <div className="container mt-5">
             <div className="jumbotron">
                 <h1 className="display-4">Welcome to messenger</h1>
                 <p className="lead">This is a messenger</p>
