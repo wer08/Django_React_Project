@@ -33,7 +33,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
         if (messages && user){
             return(
                 <>
-                {messages.map((message)=><div className="d-flex" key={message.id}>
+                {messages.map((message)=><div className="d-flex" key={message.pk}>
                     {
                     (message.sender == user.id)?
                     <SentMessage message={message} page={counter}/>
@@ -55,7 +55,6 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     useEffect(()=>{
 
         if(file){
-            console.log('sending')
             add_message(user.id, receiver, message, file)
         }
         
@@ -76,7 +75,6 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     const onScroll = e => {
         if(e.target.scrollTop == 0)
         {
-            console.log(counter, numberOfPages)
             if (counter >= numberOfPages){
                 return
             }
