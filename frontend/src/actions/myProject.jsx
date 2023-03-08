@@ -141,20 +141,26 @@ export const get_convo = (user_id, contact_id, page) => async dispatch => {
     }
 }
 
-export const add_message = (id, contact_id, text) => async dispatch => {
+export const add_message = (id, contact_id, text, file) => async dispatch => {
 
     try{
         const config = {
             headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }
         }
-        const body = {
+
+        const body = JSON.stringify({
             contact_id: contact_id,
             pk: id,
-            text: text
-        }
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/add_message`,body,config);
+            text: text,
+            file: file
+        })
+        const formData = new FormData();
+        formData.append("file", file)
+        formData.append("body", body)
+
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/add_message`,formData,config);
         dispatch({
             type: ADD_MESSAGE_SUCCESS
         })
@@ -168,14 +174,14 @@ export const add_message = (id, contact_id, text) => async dispatch => {
     }
 }
 
-export const delMessage = (message_id,user_id, contact_id) => async dispatch => {
+export const delMessage = (message_id,user_id, contact_id, page) => async dispatch => {
     try{
         await axios.delete(`${import.meta.env.VITE_API_URL}/delete_message/${message_id}`)
 
         dispatch({
             type: DELETE_MESSAGE_SUCCESS
         })
-        dispatch(get_convo(user_id, contact_id))
+        dispatch(get_convo(user_id, contact_id,page))
     }
     catch{
         dispatch({

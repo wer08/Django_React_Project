@@ -5,7 +5,7 @@ import SentMessage from "./SentMessage";
 import ReceivedMessage from "./ReceivedMessage";
 import EmojiPicker from "emoji-picker-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faIcons } from "@fortawesome/free-solid-svg-icons";
+import { faIcons, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { checkText } from "smile2emoji";
 
 
@@ -16,7 +16,9 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     const [message, setMessage] = useState("")
     const [isHidden, setIsHidden] = useState(true)
     const [counter, setCounter] = useState(1)
+    const [file, setFile] = useState(null)
     const messagesEndRef = useRef(null)
+    const inputRef = useRef(null);
 
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView()
@@ -26,11 +28,6 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
       scrollToBottom()
     }, [messages]);
 
-    const onClick = () => {
-        setIsHidden(!isHidden)
-    }
-
-
 
     const conversation = () => {
         if (messages && user){
@@ -39,7 +36,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
                 {messages.map((message)=><div className="d-flex" key={message.id}>
                     {
                     (message.sender == user.id)?
-                    <SentMessage message={message}/>
+                    <SentMessage message={message} page={counter}/>
                         :
                     <ReceivedMessage message={message}/>
                     }
@@ -55,19 +52,20 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     },[])
 
+    useEffect(()=>{
+
+        if(file){
+            console.log('sending')
+            add_message(user.id, receiver, message, file)
+        }
+        
+    },[file])
+
     const onSubmit = (e) => {
         e.preventDefault()
-        add_message(user.id, receiver, message)
+        add_message(user.id, receiver, message,null)
         setMessage("")
         setCounter(1)
-    }
-
-    const onEmojiClick = e=>{
-        setMessage(`${message} ${e.emoji}`)
-    }
-
-    const onFocus = ()=>{
-        setIsHidden(true)
     }
 
     const onChange = (e)=>{
@@ -87,14 +85,33 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
         }
     }
 
+    const handleFileChange = e => {
+        if (!e.target.files) {
+            return;
+          }
+      
+        setFile(e.target.files[0]);
+    }
+
 
     return ( 
         <div className="convo-wrapper mt-3" style={{display: 'flex', flexDirection: 'column', position: 'realtive'}}>
             {messages?<div className="list-group border convo pt-3" onScroll={(e)=>onScroll(e)} >{conversation()}</div>:<div className="d-flex justify-content-center align-items-center border convo"><h1 className="emptyConvo">Select contact to open conversation</h1></div> }
             {messages && <>
-            <div style={{position: 'absolute', top: '180px'}} className={isHidden ? 'emojiPicker' : ""}><EmojiPicker onEmojiClick={e=>onEmojiClick(e)}/></div>                
-            <form className="form-group new_message_form " onSubmit={e=>onSubmit(e)} onFocus={()=>onFocus()}>
+            <div style={{position: 'absolute', top: '180px'}} className={isHidden ? 'emojiPicker' : ""}><EmojiPicker onEmojiClick={e=>setMessage(`${message} ${e.emoji}`)}/></div>
+            <input type='file' ref={inputRef} style={{display: 'none'}} onChange={e=>handleFileChange(e)}/>                  
+            <form className="form-group new_message_form " onSubmit={e=>onSubmit(e)} onFocus={()=>setIsHidden(true)}>
                 <input className="form-control new_message " type="search" autoComplete="off" name="new_message" value={message} placeholder="Aa" onChange={(e)=>onChange(e)}></input>
+                <FontAwesomeIcon 
+                icon={faPlus} 
+                className='icon emoji p-2'
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                data-bs-custom-class="custom-tooltip"
+                data-bs-title="Add file"
+                data-bs-trigger='hover'
+                onClick={()=>inputRef.current?.click()}
+                />
                 <FontAwesomeIcon 
                 icon={faIcons} 
                 className='icon emoji p-2'
@@ -103,7 +120,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
                 data-bs-custom-class="custom-tooltip"
                 data-bs-title="Show emojis"
                 data-bs-trigger='hover'
-                onClick={onClick}/>
+                onClick={()=>setIsHidden(!isHidden)}/>
             </form>
             
             </>}

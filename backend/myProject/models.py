@@ -33,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default = False)
     contacts = ArrayField(models.CharField(blank=True, max_length=255),null=True,default=list)
-    profile_pic = models.ImageField(upload_to='media', default='media/profile.png')
+    profile_pic = models.ImageField(upload_to='media/profile', default='media/profile/profile.png')
 
     objects = UserManager()
 
@@ -69,6 +69,7 @@ class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='send_messages')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
     body = models.CharField(max_length=3500)
+    file = models.FileField(upload_to='media/messages/% Y/% m/% d/', null=True, blank=True, default=None)
     is_read = models.BooleanField(default=False)
 
     def serialize(self):

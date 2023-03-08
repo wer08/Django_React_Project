@@ -2,7 +2,7 @@ import { useState } from "react";
 import Options from "./Options";
 
 
-const SentMessage = ({message}) => {
+const SentMessage = ({message, page}) => {
     const [isShown, setIsShown] = useState(false)
     const [messageEmoji, setMessageEmoji] = useState(null)
     const onMouseOver = ()=>{
@@ -16,7 +16,7 @@ const SentMessage = ({message}) => {
     return ( 
         <>
         <div onMouseOver={()=>onMouseOver()} onMouseLeave={()=>onMouseLeave()} className={ isShown ? "d-flex justify-content-end align-items-center container ms-auto" : "d-flex justify-content-end align-items-center container ms-auto hidden"}>
-            <Options message={message}/>
+            <Options message={message} page={page}/>
         </div>
         <div 
             className="ms-auto sent me-3 p-2" 

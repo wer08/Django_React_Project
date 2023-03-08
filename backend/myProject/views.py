@@ -97,18 +97,26 @@ def get_convo(request):
 
 def add_message(request):
     if request.method == 'POST':
-        body = json.loads(request.body)
+        data = request.POST
+        files = request.FILES
+        body = json.loads(data.get("body"))
         id = body['contact_id']
         contact = User.objects.get(pk=id)
         user = User.objects.get(pk = body['pk'])
         text = body['text']
-        message = Message(sender=user,receiver=contact,body=text)
+        if files.get("file"):
+            message = Message(sender=user, receiver = contact, body = "", file = files.get("file"))
+        else:
+            message = Message(sender=user,receiver=contact,body=text)
         message.save()
+        print('message:',message.file)
         return HttpResponse(status=204)
 
 def delete_message(request,id):
     if request.method == 'DELETE':
         message = Message.objects.get(pk=id)
+        if message.file:
+            message.file.delete()
         message.delete()
         return HttpResponse(status=204)
 

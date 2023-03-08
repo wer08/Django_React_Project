@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { delMessage } from "../actions/myProject";
 
-const Options = ({message, delMessage}) => {
+const Options = ({message, delMessage, page}) => {
 
     useEffect(()=>{
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -13,7 +13,7 @@ const Options = ({message, delMessage}) => {
 
     const deleteMessage = ()=>{
         bootstrap.Tooltip.getInstance(`#trash-${message.id}`).hide();
-        delMessage(message.id, message.sender, message.receiver)
+        delMessage(message.id, message.sender, message.receiver,page)
     }
 
     return ( 
