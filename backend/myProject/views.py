@@ -7,6 +7,7 @@ from .models import Student, User, Message
 import json
 from django.views.decorators.csrf import csrf_exempt
 from operator import itemgetter
+from .serializers import MessageSerializer 
 
 
 
@@ -75,12 +76,12 @@ def get_convo(request):
     page = request.GET.get('page',"")
     number = int(page) * 20
     messages_sent = Message.objects.filter(sender = user_pk, receiver = contact_pk)
-    messages_sent = [message.serialize() for message in messages_sent]
+    messages_sent = [MessageSerializer(message).data for message in messages_sent]
     messages_received = Message.objects.filter(sender = contact_pk, receiver = user_pk)
     for message in messages_received:
         message.is_read = True
         message.save()
-    messages_received = [message.serialize() for message in messages_received]
+    messages_received = [MessageSerializer(message).data for message in messages_received]
     if int(user_pk) != int(contact_pk):
         messages = messages_sent + messages_received
     else:

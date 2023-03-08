@@ -13,7 +13,7 @@ const Options = ({message, delMessage, page}) => {
 
     const deleteMessage = ()=>{
         bootstrap.Tooltip.getInstance(`#trash-${message.id}`).hide();
-        delMessage(message.id, message.sender, message.receiver,page)
+        delMessage(message.pk, message.sender, message.receiver,page)
     }
 
     return ( 
