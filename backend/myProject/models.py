@@ -72,8 +72,7 @@ class Message(models.Model):
     file = models.FileField(upload_to='media/messages/% Y/% m/% d/', null=True, blank=True, default=None)
     is_read = models.BooleanField(default=False)
 
-
-
-
+class Signals(models.Model):
+    messages = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='signals')
 
     

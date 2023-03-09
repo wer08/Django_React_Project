@@ -16,6 +16,8 @@ import {
     GET_STATUSES_SUCCESS,
     DELETE_MESSAGE_FAIL,
     DELETE_MESSAGE_SUCCESS,
+    GET_SIGNALS_FAIL,
+    GET_SIGNALS_SUCCESS
 } from "./types";
 
 axios.defaults.withCredentials = true;
@@ -126,7 +128,6 @@ export const add_contact = (id_user, contact_email) => async dispatch => {
 }
 
 export const get_convo = (user_id, contact_id, page) => async dispatch => {
-    console.log('get_convo')
     try{
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_convo?user_id=${user_id}&contact_id=${contact_id}&page=${page}`);
         dispatch({
@@ -137,6 +138,21 @@ export const get_convo = (user_id, contact_id, page) => async dispatch => {
         console.log(e)
         dispatch({
             type: GET_CONVO_FAIL
+        })
+    }
+}
+
+export const get_signals = () => async dispatch => {
+    try{
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_signals`)
+        dispatch({
+            type: GET_SIGNALS_SUCCESS,
+            payload: res.data
+        })
+    }catch(e){
+        console.log(e)
+        dispatch({
+            type: GET_SIGNALS_FAIL
         })
     }
 }

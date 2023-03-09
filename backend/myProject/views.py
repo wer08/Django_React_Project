@@ -3,11 +3,13 @@ from django.http import JsonResponse, HttpResponse
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-from .models import Student, User, Message
+from .models import Student, User, Message, Signals
 import json
 from django.views.decorators.csrf import csrf_exempt
 from operator import itemgetter
-from .serializers import MessageSerializer 
+from .serializers import MessageSerializer, SignalSerializer
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 
@@ -29,6 +31,23 @@ def change_data(request,pk):
             user.profile_pic = picture.get("picture")
         user.save()
         return JsonResponse(user.serialize())
+    
+@receiver(post_save, sender=Message)
+def set_signals(sender, instance,created,**kwargs):
+    if created:
+        signal = Signals(messages = instance)
+        signal.save()
+    if instance.is_read:
+        signal = Signals.objects.get(messages = instance)
+        signal.delete()
+    
+def get_signals(request):
+    signals = Signals.objects.all()
+    signals = [SignalSerializer(signal).data for signal in signals]
+    signals = [list(signal.values())[0] for signal in signals]
+    signals = [MessageSerializer(Message.objects.get(pk=signal)).data for signal in signals]
+    
+    return JsonResponse(signals,safe=False)
     
 
 def get_users(request):
@@ -65,6 +84,7 @@ def get_statuses(request):
             statuses[message.sender.pk] = False
         else:
             statuses[message.sender.pk] = True
+    print(statuses)
     return JsonResponse(statuses)
 
 
@@ -79,8 +99,9 @@ def get_convo(request):
     messages_sent = [MessageSerializer(message).data for message in messages_sent]
     messages_received = Message.objects.filter(sender = contact_pk, receiver = user_pk)
     for message in messages_received:
-        message.is_read = True
-        message.save()
+        if not message.is_read:
+            message.is_read = True
+            message.save()
     messages_received = [MessageSerializer(message).data for message in messages_received]
     if int(user_pk) != int(contact_pk):
         messages = messages_sent + messages_received
@@ -110,7 +131,6 @@ def add_message(request):
         else:
             message = Message(sender=user,receiver=contact,body=text)
         message.save()
-        print('message:',message.file)
         return HttpResponse(status=204)
 
 def delete_message(request,id):

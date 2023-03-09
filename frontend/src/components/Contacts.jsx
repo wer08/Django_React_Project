@@ -70,6 +70,7 @@ const mapStateToProps = state => ({
     contacts: state.auth.contacts,
     receiver: state.auth.receiver,
     statuses: state.auth.statuses,
+    
 });
  
 export default connect(mapStateToProps,{add_contact,get_convo})(Contacts);

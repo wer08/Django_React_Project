@@ -1,7 +1,7 @@
 from djoser.serializers import UserCreateSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Message
+from .models import Message,Signals
 
 User = get_user_model()
 
@@ -14,4 +14,9 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['date_of_creation','pk','sender','receiver','body','file','is_read']
+
+class SignalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Signals
+        fields = ['messages']
     

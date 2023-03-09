@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { add_message, get_convo } from "../actions/myProject";
+import { add_message, get_convo, get_signals } from "../actions/myProject";
 import SentMessage from "./SentMessage";
 import ReceivedMessage from "./ReceivedMessage";
 import EmojiPicker from "emoji-picker-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIcons, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { checkText } from "smile2emoji";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 
-const Conversation = ({messages,user, receiver, add_message, get_convo, numberOfPages}) => {
+const Conversation = ({messages,user, receiver, add_message, get_convo, numberOfPages, signals}) => {
 
     const [message, setMessage] = useState("")
     const [isHidden, setIsHidden] = useState(true)
@@ -23,12 +25,29 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView()
     }
+
+    let signalsLength = signals ? signals.length : 0
+
+    useEffect(()=>{
+        scrollToBottom()
+    },[messages])
+    
+    useEffect(()=>{
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    },[])
+
+    useEffect(()=>{
+        if(file){
+            add_message(user.id, receiver, message, file)
+        }
+    },[file])
+    
+    useEffect(()=>{
+        
+        user && get_convo(user.id,receiver,counter)
+    },[signalsLength])
   
-    useEffect(() => {
-      scrollToBottom()
-    }, [messages]);
-
-
     const conversation = () => {
         if (messages && user){
             return(
@@ -46,19 +65,6 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
             )
         }
     }
-
-    useEffect(()=>{
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    },[])
-
-    useEffect(()=>{
-
-        if(file){
-            add_message(user.id, receiver, message, file)
-        }
-        
-    },[file])
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -94,6 +100,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
 
     return ( 
         <div className="convo-wrapper mt-3" style={{display: 'flex', flexDirection: 'column', position: 'realtive'}}>
+            <ToastContainer />
             {messages?<div className="list-group border convo pt-3" onScroll={(e)=>onScroll(e)} >{conversation()}</div>:<div className="d-flex justify-content-center align-items-center border convo"><h1 className="emptyConvo">Select contact to open conversation</h1></div> }
             {messages && <>
             <div style={{position: 'absolute', top: '180px'}} className={isHidden ? 'emojiPicker' : ""}><EmojiPicker onEmojiClick={e=>setMessage(`${message} ${e.emoji}`)}/></div>
@@ -129,6 +136,7 @@ const mapStateToProps = (state) => ({
     messages: state.auth.messages,
     user: state.auth.user,
     receiver: state.auth.receiver,
-    numberOfPages: state.auth.numberOfPages
+    numberOfPages: state.auth.numberOfPages,
+    signals: state.auth.signals
 })
 export default connect(mapStateToProps,{add_message, get_convo})(Conversation);

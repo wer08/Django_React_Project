@@ -1,26 +1,61 @@
 import Navbar from '../components/Navbar'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { check_authentication, load_user} from '../actions/auth';
-import { get_users } from '../actions/myProject';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { get_signals, get_users, get_statuses } from '../actions/myProject';
 
-const Layout = ({check_authentication, load_user, children, get_users}) => {
+const Layout = ({check_authentication, load_user, children, get_users, get_signals, get_statuses, signals, user}) => {
 
-    
+    const [signalsLength, setSignalsLength] = useState(null)
+    const [isNew, setIsNew] = useState(false)
+    const notify = (message) => toast(message.body);
     useEffect(()=>{
         check_authentication();
         load_user();
         get_users();
+        if(signals){
+            setSignalsLength(signals.length)
+        }
+        const interval = setInterval(() => {
+            get_signals();
+          }, 500);
+        return () => clearInterval(interval);
     },[])
+
+    useEffect(()=>{
+        if(signals && signalsLength < signals.length)
+        {
+            setIsNew(true)
+        }
+        signals && setSignalsLength(signals.length)
+    },[signals])
+
+    useEffect(()=>{
+        if(isNew && user && signals[signals.length -1] && signals[signals.length -1].receiver == user.id){
+            notify(signals[signals.length -1]);
+        }
+        user && get_statuses(user.id)
+    },[signalsLength])
+
+
+
+
 
 
 
     return (  
         <div style={{position: 'relative',height: '87vh'}}>
             <Navbar />
+            <ToastContainer />
             {children}
         </div>
     );
 }
+const mapStateToProps = state => ({
+    signals: state.auth.signals,
+    user: state.auth.user
+})
  
-export default connect(null, {check_authentication, load_user, get_users})(Layout);
+export default connect(mapStateToProps, {check_authentication, load_user, get_users, get_signals, get_statuses})(Layout);

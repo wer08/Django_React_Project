@@ -31,7 +31,9 @@ import {
     GET_STATUSES_FAIL,
     GET_STATUSES_SUCCESS,
     DELETE_MESSAGE_FAIL,
-    DELETE_MESSAGE_SUCCESS
+    DELETE_MESSAGE_SUCCESS,
+    GET_SIGNALS_FAIL,
+    GET_SIGNALS_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -44,7 +46,8 @@ const initialState = {
     receiver: null,
     contacts: null,
     statuses: null,
-    numberOfPages: null
+    numberOfPages: null,
+    signals: null
 }
 
 export default (state = initialState, action) => {
@@ -126,6 +129,11 @@ export default (state = initialState, action) => {
                 ...state,
                 statuses: payload
             }
+        case GET_SIGNALS_SUCCESS:
+            return{
+                ...state,
+                signals: payload
+            }
         case PASSWORD_RESET_CONFIRM_FAIL:
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_FAIL:
@@ -141,6 +149,7 @@ export default (state = initialState, action) => {
         case DELETE_MESSAGE_FAIL:
         case DELETE_MESSAGE_SUCCESS:
         case GET_STATUSES_FAIL:
+        case GET_SIGNALS_FAIL:
             return{
                 ...state,
             }
