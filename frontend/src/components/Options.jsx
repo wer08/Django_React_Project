@@ -5,13 +5,16 @@ import { connect } from "react-redux";
 import { delMessage } from "../actions/myProject";
 import {saveAs} from "file-saver"
 
-const Options = ({message, delMessage, page, isFile, isReceived}) => {
+const Options = ({message, delMessage, page, isFile, isSent}) => {
 
     const downloadRef = useRef(null)
     const trashRef = useRef(null)
     useEffect(()=>{
-        const trashTool = new bootstrap.Tooltip(trashRef.current)
-    },[])
+        if(isSent){
+            const trashTool = new bootstrap.Tooltip(trashRef.current)
+        }
+
+    },[isSent])
 
     useEffect(()=>{
         if (isFile){
@@ -26,8 +29,8 @@ const Options = ({message, delMessage, page, isFile, isReceived}) => {
 
 
     return ( 
-        <div className="options p-2">
-            <FontAwesomeIcon 
+        <div className={isSent ? "options p-2" : "options p-2 me-auto"}>
+            {isSent && <FontAwesomeIcon 
                 icon={faTrash} 
                 id={`trash-${message.pk}`}
                 className='icon p-2'
@@ -36,7 +39,7 @@ const Options = ({message, delMessage, page, isFile, isReceived}) => {
                 data-bs-custom-class="custom-tooltip"
                 data-bs-title="Delete message"
                 ref={trashRef}
-                onClick={()=>deleteMessage()}/>
+                onClick={()=>deleteMessage()}/>}
             {isFile &&
             <FontAwesomeIcon 
                 icon={faDownload} 

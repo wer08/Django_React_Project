@@ -19,7 +19,7 @@ const SentMessage = ({message, page}) => {
     return ( 
         <>
         <div onMouseOver={()=>onMouseOver()} onMouseLeave={()=>onMouseLeave()} className={ isShown ? "d-flex justify-content-end align-items-center container ms-auto" : "d-flex justify-content-end align-items-center container ms-auto hidden"}>
-            <Options message={message} page={page} isFile={isFile} isReceived={false}/>
+            <Options message={message} page={page} isFile={isFile} isSent={true}/>
         </div>
         <div 
             className="ms-auto sent me-3 p-2" 

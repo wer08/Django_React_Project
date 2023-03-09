@@ -23,7 +23,7 @@ const ReceivedMessage = ({message, users}) => {
     return (  
         <>
         
-        <img src={picture} alt="" width="40" height="40" className="ms-2 img"></img>
+        <img src={picture} alt="" width="40" height="40" className="ms-2 img mt-auto"></img>
         <div 
             className="me-auto  ms-3 received p-2"
             data-bs-toggle="tooltip" data-bs-placement="top"
@@ -35,8 +35,8 @@ const ReceivedMessage = ({message, users}) => {
             {message.file ? <img src={`${import.meta.env.VITE_API_URL}/${message.file}`} alt="Can't display" width="150" height="150" className="me-2"></img>  : message.body}
             </div>
         </div>
-        <div onMouseOver={()=>onMouseOver()} onMouseLeave={()=>onMouseLeave()} className={ isShown ? "d-flex justify-content-end align-items-center container ms-auto" : "d-flex justify-content-end align-items-center container ms-auto hidden"}>
-            <Options message={message} isFile={isFile} isReceived={true}/>
+        <div onMouseOver={()=>onMouseOver()} onMouseLeave={()=>onMouseLeave()} className={ isShown ? "d-flex justify-content-end align-items-center container me-auto" : "d-flex justify-content-end align-items-center container me-auto hidden"}>
+            <Options message={message} isFile={isFile} isSent={false}/>
         </div>
         </>
     );
