@@ -13,9 +13,10 @@ const Layout = ({check_authentication, load_user, children, get_users, get_signa
     
     const notify = (message) => {
         const user = users.find(user=>user.id == message.sender)
+        const body = message.body.length > 50 ? `${message.body.slice(0,50)}...` : message.body
         toast.info(<><p className='fw-bold ms-2'>
             {user.first_name} {user.last_name}</p>
-            <p className='ms-2'>{message.file ? <img src={`${import.meta.env.VITE_API_URL}/${message.file}`} alt="Can't display" width="50" height="50" className="me-2"></img> : message.body}</p>
+            <p className='ms-2'>{message.file ? <img src={`${import.meta.env.VITE_API_URL}/${message.file}`} alt="Can't display" width="50" height="50" className="me-2"></img> : body}</p>
             </>);
     }
     useEffect(()=>{
