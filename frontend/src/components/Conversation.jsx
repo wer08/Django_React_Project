@@ -97,7 +97,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
             {messages?<div className="list-group border convo pt-3" onScroll={(e)=>onScroll(e)} >{conversation()}</div>:<div className="d-flex justify-content-center align-items-center border convo"><h1 className="emptyConvo">Select contact to open conversation</h1></div> }
             {messages && <>
             <div style={{position: 'absolute', top: '180px'}} className={isHidden ? 'emojiPicker' : ""}><EmojiPicker onEmojiClick={e=>setMessage(`${message} ${e.emoji}`)}/></div>
-            <input type='file' ref={inputRef} style={{display: 'none'}} onChange={e=>handleFileChange(e)}/>                  
+            <input type='file' ref={inputRef} style={{display: 'none'}} onChange={e=>handleFileChange(e)} accept="image/png, image/gif, image/jpeg" />                  
             <form className="form-group new_message_form " onSubmit={e=>onSubmit(e)} onFocus={()=>setIsHidden(true)}>
                 <input className="form-control new_message " type="search" autoComplete="off" name="new_message" value={message} placeholder="Aa" onChange={(e)=>onChange(e)}></input>
                 <FontAwesomeIcon 
@@ -106,7 +106,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
                 data-bs-toggle="tooltip" 
                 data-bs-placement="top"
                 data-bs-custom-class="custom-tooltip"
-                data-bs-title="Add file"
+                data-bs-title="Add picture"
                 data-bs-trigger='hover'
                 onClick={()=>inputRef.current?.click()}
                 />

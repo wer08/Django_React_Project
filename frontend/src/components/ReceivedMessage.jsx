@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import Options from "./Options";
 const ReceivedMessage = ({message, users}) => {
     const [picture, setPicture] = useState(null)
     const [isShown, setIsShown] = useState(false)
     const [isFile, setIsFile] = useState(false)
+    const messageRef = useRef(null)
+
+    const date = new Date(message.date_of_creation).toLocaleTimeString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
     const onMouseOver = ()=>{
         setIsShown(true)
     }
     const onMouseLeave = ()=>{
         setIsShown(false)
     }
-    useEffect(()=>{
-        message.file && setIsFile(true)
-    },[])
 
     useEffect(()=>{
         const sender = users.find(user => user.id = message.sender)
         setPicture(sender.profile_pic)
+        message.file && setIsFile(true)
+        const messageTool = new bootstrap.Tooltip(messageRef.current)
     },[])
 
     return (  
@@ -28,7 +30,8 @@ const ReceivedMessage = ({message, users}) => {
             className="me-auto  ms-3 received p-2"
             data-bs-toggle="tooltip" data-bs-placement="top"
             data-bs-custom-class="custom-tooltip"
-            data-bs-title={message.date_of_creation}
+            data-bs-title={date}
+            ref={messageRef}
             onMouseOver={onMouseOver}
             onMouseLeave={onMouseLeave}>
             <div>
