@@ -6,11 +6,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { get_signals, get_users, get_statuses } from '../actions/myProject';
 
-const Layout = ({check_authentication, load_user, children, get_users, get_signals, get_statuses, signals, user}) => {
+const Layout = ({check_authentication, load_user, children, get_users, get_signals, get_statuses, signals, user, users}) => {
 
     const [signalsLength, setSignalsLength] = useState(null)
     const [isNew, setIsNew] = useState(false)
-    const notify = (message) => toast(message.body);
+    
+    const notify = (message) => {
+        const user = users.find(user=>user.id == message.sender)
+        toast.info(<><p className='fw-bold ms-2'>
+            {user.first_name} {user.last_name}</p>
+            <p className='ms-2'>{message.file ? <img src={`${import.meta.env.VITE_API_URL}/${message.file}`} alt="Can't display" width="50" height="50" className="me-2"></img> : message.body}</p>
+            </>);
+    }
     useEffect(()=>{
         check_authentication();
         load_user();
@@ -55,7 +62,8 @@ const Layout = ({check_authentication, load_user, children, get_users, get_signa
 }
 const mapStateToProps = state => ({
     signals: state.auth.signals,
-    user: state.auth.user
+    user: state.auth.user,
+    users: state.auth.users
 })
  
 export default connect(mapStateToProps, {check_authentication, load_user, get_users, get_signals, get_statuses})(Layout);
