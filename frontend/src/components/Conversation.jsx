@@ -47,6 +47,8 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
         
         user && get_convo(user.id,receiver,counter)
     },[signalsLength])
+
+    
   
     const conversation = () => {
         if (messages && user){

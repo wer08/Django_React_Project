@@ -42,6 +42,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -263,4 +264,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+ASGI_APPLICATION = "backend.asgi.application"
 
