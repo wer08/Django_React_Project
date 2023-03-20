@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-
+const SOCKET_URL = 'http://localhost:8080';
 const Conversation = ({messages,user, receiver, add_message, get_convo, numberOfPages, signals}) => {
 
     const [message, setMessage] = useState("")
@@ -22,6 +22,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     const [file, setFile] = useState(null)
     const messagesEndRef = useRef(null)
     const inputRef = useRef(null);
+    const [connected, setConnected] = useState(false)
 
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView()
@@ -36,6 +37,13 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     useEffect(()=>{
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        const socket = io(SOCKET_URL);
+        socket.on('connect', () => {
+          setConnected(true);
+        });
+        socket.on('disconnect', () => {
+          setConnected(false);
+        });
     },[])
 
     useEffect(()=>{
@@ -130,6 +138,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
                 data-bs-trigger='hover'
                 onClick={()=>setIsHidden(!isHidden)}/>
             </form>
+            <h1>WebSocket Status: {connected ? 'Connected' : 'Disconnected'}</h1>
             
             </>}
         </div>
