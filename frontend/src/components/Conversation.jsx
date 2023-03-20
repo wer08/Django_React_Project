@@ -7,6 +7,7 @@ import EmojiPicker from "emoji-picker-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIcons, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { checkText } from "smile2emoji";
+import { io } from "socket.io-client";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -48,7 +49,7 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
         user && get_convo(user.id,receiver,counter)
     },[signalsLength])
 
-    
+
   
     const conversation = () => {
         if (messages && user){
