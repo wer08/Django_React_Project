@@ -68,7 +68,8 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
         add_message(user.id, receiver, message,null)
         socket.emit('chat_message', {
             body: message,
-            sender: user.id
+            sender: user.id,
+            page: counter
         })
         setMessage("")
         setCounter(1)

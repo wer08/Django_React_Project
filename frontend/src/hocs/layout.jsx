@@ -39,7 +39,7 @@ const Layout = ({check_authentication, load_user, children, get_users, user,get_
         console.log('sth')
         user && socket.on('chat_message',(e)=>{
             setChatMessage(e)
-            get_convo(user.id,receiver,1);
+            get_convo(user.id,receiver,e.page);
             user.id != e.sender && notify(e)
         })
 
