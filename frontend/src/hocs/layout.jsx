@@ -3,13 +3,17 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { check_authentication, load_user} from '../actions/auth';
 import { ToastContainer, toast } from 'react-toastify';
+import { io } from "socket.io-client";
 import 'react-toastify/dist/ReactToastify.css';
-import { get_signals, get_users, get_statuses } from '../actions/myProject';
+import { get_users, get_statuses, get_convo } from '../actions/myProject';
 
-const Layout = ({check_authentication, load_user, children, get_users, get_signals, get_statuses, signals, user, users}) => {
 
-    const [signalsLength, setSignalsLength] = useState(null)
-    const [isNew, setIsNew] = useState(false)
+
+const SOCKET_URL = 'http://localhost:8080';
+const Layout = ({check_authentication, load_user, children, get_users, user,get_statuses, users, get_convo, receiver}) => {
+
+    const [chatMessage, setChatMessage] = useState("")
+    const socket = io(SOCKET_URL);
     
     const notify = (message) => {
         const user = users.find(user=>user.id == message.sender)
@@ -23,34 +27,27 @@ const Layout = ({check_authentication, load_user, children, get_users, get_signa
         check_authentication();
         load_user();
         get_users();
-        if(signals){
-            setSignalsLength(signals.length)
+        get_statuses(user?.id);
+        socket.connect();
+
+        return ()=>{
+            socket.disconnect();
         }
-        const interval = setInterval(() => {
-            get_signals();
-          }, 500);
-        return () => clearInterval(interval);
     },[])
 
     useEffect(()=>{
-        if(signals && signalsLength < signals.length)
-        {
-            setIsNew(true)
+        console.log('sth')
+        user && socket.on('chat_message',(e)=>{
+            setChatMessage(e)
+            get_convo(user.id,receiver,1);
+            user.id != e.sender && notify(e)
+        })
+
+        return ()=>{
+            socket.off('chat_message', setChatMessage(""))
         }
-        signals && setSignalsLength(signals.length)
-    },[signals])
 
-    useEffect(()=>{
-        if(isNew && user && signals[signals.length -1] && signals[signals.length -1].receiver == user.id){
-            notify(signals[signals.length -1]);
-        }
-        user && get_statuses(user.id)
-    },[signalsLength])
-
-
-
-
-
+    },[chatMessage])
 
 
     return (  
@@ -64,7 +61,8 @@ const Layout = ({check_authentication, load_user, children, get_users, get_signa
 const mapStateToProps = state => ({
     signals: state.auth.signals,
     user: state.auth.user,
-    users: state.auth.users
+    users: state.auth.users,
+    receiver: state.auth.receiver
 })
  
-export default connect(mapStateToProps, {check_authentication, load_user, get_users, get_signals, get_statuses})(Layout);
+export default connect(mapStateToProps, {check_authentication, load_user, get_users, get_statuses, get_convo})(Layout);

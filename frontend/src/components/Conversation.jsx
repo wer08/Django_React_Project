@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { add_message, get_convo, get_signals } from "../actions/myProject";
+import { add_message, get_convo } from "../actions/myProject";
 import SentMessage from "./SentMessage";
 import ReceivedMessage from "./ReceivedMessage";
 import EmojiPicker from "emoji-picker-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faIcons, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCropSimple, faIcons, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { checkText } from "smile2emoji";
 import { io } from "socket.io-client";
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const SOCKET_URL = 'http://localhost:8080';
-const Conversation = ({messages,user, receiver, add_message, get_convo, numberOfPages, signals}) => {
+const Conversation = ({messages,user, receiver, add_message, get_convo, numberOfPages}) => {
 
     const [message, setMessage] = useState("")
     const [isHidden, setIsHidden] = useState(true)
@@ -22,13 +22,11 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     const [file, setFile] = useState(null)
     const messagesEndRef = useRef(null)
     const inputRef = useRef(null);
-    const [connected, setConnected] = useState(false)
+    const socket = io(SOCKET_URL);
 
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView()
     }
-
-    let signalsLength = signals ? signals.length : 0
 
     useEffect(()=>{
         scrollToBottom()
@@ -37,28 +35,16 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     useEffect(()=>{
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-        const socket = io(SOCKET_URL);
-        socket.on('connect', () => {
-          setConnected(true);
-        });
-        socket.on('disconnect', () => {
-          setConnected(false);
-        });
     },[])
+
 
     useEffect(()=>{
         if(file){
             add_message(user.id, receiver, message, file)
+            socket.emit('chat_message',file)
         }
     },[file])
     
-    useEffect(()=>{
-        
-        user && get_convo(user.id,receiver,counter)
-    },[signalsLength])
-
-
-  
     const conversation = () => {
         if (messages && user){
             return(
@@ -80,6 +66,10 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     const onSubmit = (e) => {
         e.preventDefault()
         add_message(user.id, receiver, message,null)
+        socket.emit('chat_message', {
+            body: message,
+            sender: user.id
+        })
         setMessage("")
         setCounter(1)
     }
@@ -138,7 +128,6 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
                 data-bs-trigger='hover'
                 onClick={()=>setIsHidden(!isHidden)}/>
             </form>
-            <h1>WebSocket Status: {connected ? 'Connected' : 'Disconnected'}</h1>
             
             </>}
         </div>
@@ -149,6 +138,5 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
     receiver: state.auth.receiver,
     numberOfPages: state.auth.numberOfPages,
-    signals: state.auth.signals
 })
 export default connect(mapStateToProps,{add_message, get_convo})(Conversation);

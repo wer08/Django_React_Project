@@ -3,11 +3,11 @@ from django.http import JsonResponse, HttpResponse
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-from .models import Student, User, Message, Signals
+from .models import Student, User, Message
 import json
 from django.views.decorators.csrf import csrf_exempt
 from operator import itemgetter
-from .serializers import MessageSerializer, SignalSerializer
+from .serializers import MessageSerializer
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -32,24 +32,6 @@ def change_data(request,pk):
         user.save()
         return JsonResponse(user.serialize())
     
-@receiver(post_save, sender=Message)
-def set_signals(sender, instance,created,**kwargs):
-    if created:
-        signal = Signals(messages = instance)
-        signal.save()
-    if instance.is_read:
-        signal = Signals.objects.get(messages = instance)
-        signal.delete()
-    
-def get_signals(request):
-    signals = Signals.objects.all()
-    signals = [SignalSerializer(signal).data for signal in signals]
-    signals = [list(signal.values())[0] for signal in signals]
-    signals = [MessageSerializer(Message.objects.get(pk=signal)).data for signal in signals]
-    
-    return JsonResponse(signals,safe=False)
-    
-
 def get_users(request):
     users = User.objects.all()
     users = [user.serialize() for user in users]

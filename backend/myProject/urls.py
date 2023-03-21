@@ -10,7 +10,6 @@ urlpatterns = [
     path('add_message', views.add_message, name='add_message'),
     path('get_contacts', views.get_contacts, name='get_contacts'),
     path('delete_message/<int:id>', views.delete_message, name='delete_message'),
-    path('get_statuses', views.get_statuses, name="get_statuses"),
-    path('get_signals', views.get_signals, name="get_signals")
+    path('get_statuses', views.get_statuses, name="get_statuses")
 
 ]
