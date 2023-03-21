@@ -41,7 +41,15 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     useEffect(()=>{
         if(file){
             add_message(user.id, receiver, message, file)
-            socket.emit('chat_message',file)
+            console.log(file)
+            socket.emit('chat_message',{
+                body: file,
+                sender: user.id,
+                page: counter,
+                isFile: true,
+                mimeType: file.type,
+                fileName: file.name
+            })
         }
     },[file])
     
@@ -69,7 +77,8 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
         socket.emit('chat_message', {
             body: message,
             sender: user.id,
-            page: counter
+            page: counter,
+            isFile: false
         })
         setMessage("")
         setCounter(1)

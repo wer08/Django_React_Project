@@ -33,7 +33,7 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver, stat
                 value={contact.email} 
                 onClick={onClick}
                 name={contact.id}>
-                    <img src={contact.profile_pic} alt="Profile pic" width="40" height="40" className="me-2 img"></img> 
+                    <img src={contact.profile_pic} alt="Profile pic" width="40" height="40" className="me-2 img"></img>
                     {currentStatuses[contact.id] ? 
                     `${contact.first_name} ${contact.last_name}` : 
                     <><span className="fw-bold" style={{pointerEvents: 'none'}}>{contact.first_name} {contact.last_name}</span><span className="dot ms-3"></span></>}

@@ -20,14 +20,14 @@ const Layout = ({check_authentication, load_user, children, get_users, user,get_
         const body = message.body.length > 50 ? `${message.body.slice(0,50)}...` : message.body
         toast.info(<><p className='fw-bold ms-2'>
             {user.first_name} {user.last_name}</p>
-            <p className='ms-2'>{message.file ? <img src={`${import.meta.env.VITE_API_URL}/${message.file}`} alt="Can't display" width="50" height="50" className="me-2"></img> : body}</p>
-            </>);
+            <p className='ms-2'>{message.isFile ? <img src={message.image} alt={`${import.meta.env.VITE_API_URL}/${message.image}`} width="50" height="50" className="me-2"></img> : body}</p>
+            </>)
     }
     useEffect(()=>{
         check_authentication();
         load_user();
         get_users();
-        get_statuses(user?.id);
+        user && get_statuses(user.id);
         socket.connect();
 
         return ()=>{
@@ -36,11 +36,23 @@ const Layout = ({check_authentication, load_user, children, get_users, user,get_
     },[])
 
     useEffect(()=>{
-        console.log('sth')
         user && socket.on('chat_message',(e)=>{
             setChatMessage(e)
-            get_convo(user.id,receiver,e.page);
-            user.id != e.sender && notify(e)
+            if (e.isFile){
+                const blob = new Blob([e.body], {type: e.mimeType})
+                const message = {
+                    ...e,
+                    image: URL.createObjectURL(blob)
+                }
+                get_convo(user.id,receiver,e.page);
+                user.id != e.sender && notify(message)
+            }
+            else
+            {
+                get_convo(user.id,receiver,e.page);
+                user.id != e.sender && notify(e)
+            }
+
         })
 
         return ()=>{

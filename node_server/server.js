@@ -16,9 +16,13 @@ app.use(cors({
 io.on('connection', (socket) => {
   socket.on('chat_message',(msg)=>{
     io.emit('chat_message',msg);
+    console.log(`message received: ${msg}`)
   })
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+  socket.on('disconnect', (e) => {
+    console.log(`user disconnected : ${e}`);
+  });
+  socket.on('connect', () => {
+    console.log('user connected');
   });
 });
 
