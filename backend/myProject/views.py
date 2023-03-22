@@ -100,8 +100,12 @@ def get_convo(request):
 def get_files(request):
     user_pk = request.GET.get('user_id',"")
     contact_pk = request.GET.get('contact_id',"")
-    messages_with_files = Message.objects.filter(file__isnull = False, sender = user_pk, receiver = contact_pk).exclude(file__exact="")
-    messages_with_files = [MessageSerializer(message).data for message in messages_with_files]
+    messages_with_files_sent = Message.objects.filter(file__isnull = False, sender = user_pk, receiver = contact_pk).exclude(file__exact="")
+    messages_with_files_sent = [MessageSerializer(message).data for message in messages_with_files_sent]
+    messages_with_files_received = Message.objects.filter(file__isnull = False, receiver = user_pk, sender = contact_pk).exclude(file__exact="")
+    messages_with_files_received = [MessageSerializer(message).data for message in messages_with_files_received]
+    messages_with_files = messages_with_files_received + messages_with_files_sent
+    messages_with_files = sorted(messages_with_files, key=itemgetter('date_of_creation'))[::-1]
     files = [message.get('file') for message in messages_with_files]
     return JsonResponse(files,safe=False)
 

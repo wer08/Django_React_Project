@@ -7,6 +7,7 @@ import Contact from "./Contact";
 const Contacts = ({user, users, contacts, add_contact, receiver, statuses}) => {
     const [contact, setContact] = useState("")
     const [currentStatuses, setCurrentStatuses] = useState(null)
+    
 
 
     const onSubmit = (e)=>{

@@ -123,7 +123,6 @@ export default (state = initialState, action) => {
             return{
                 ...state,
                 files: payload
-
             }
         case GET_CONTACTS_SUCCESS:
             return{

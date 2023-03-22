@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import {connect} from 'react-redux';
 import { login } from "../actions/auth";
 import axios from "axios";
+import Modal from 'react-modal'
 
 
 const Login = ({login, isAuthenticated}) => {
