@@ -1,9 +1,10 @@
-import { faCropSimple } from "@fortawesome/free-solid-svg-icons";
+
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { add_contact, get_convo } from "../actions/myProject"
+import { add_contact} from "../actions/myProject"
+import Contact from "./Contact";
 
-const Contacts = ({user, users, contacts, add_contact, get_convo, receiver, statuses}) => {
+const Contacts = ({user, users, contacts, add_contact, receiver, statuses}) => {
     const [contact, setContact] = useState("")
     const [currentStatuses, setCurrentStatuses] = useState(null)
 
@@ -21,30 +22,11 @@ const Contacts = ({user, users, contacts, add_contact, get_convo, receiver, stat
         setCurrentStatuses(statuses)
     },[statuses])
 
-
-
     const contact_list = () => 
     {
         return(
-            currentStatuses && contacts && contacts.map((contact)=>
-            <button 
-                className={receiver==contact.id?"list-group-item click contact text-start active_conv mb-2":"list-group-item click contact text-start mb-2"}  
-                key={contact.id} 
-                value={contact.email} 
-                onClick={onClick}
-                name={contact.id}>
-                    <img src={contact.profile_pic} alt="Profile pic" width="40" height="40" className="me-2 img"></img>
-                    {currentStatuses[contact.id] ? 
-                    `${contact.first_name} ${contact.last_name}` : 
-                    <><span className="fw-bold" style={{pointerEvents: 'none'}}>{contact.first_name} {contact.last_name}</span><span className="dot ms-3"></span></>}
-            </button>)
-        )
-    }
+            currentStatuses && contacts && contacts.map((contact,idx)=><Contact receiver={receiver} contact={contact} key={idx} status={currentStatuses[contact.id]} user={user} />))
 
-    const onClick = (e) => {
-        const id = e.target.name
-        setCurrentStatuses({...currentStatuses, [id]: true})
-        get_convo(user.id, id, 1)
     }
 
     return ( 
@@ -73,4 +55,4 @@ const mapStateToProps = state => ({
     
 });
  
-export default connect(mapStateToProps,{add_contact,get_convo})(Contacts);
+export default connect(mapStateToProps,{add_contact})(Contacts);

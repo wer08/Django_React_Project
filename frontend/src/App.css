@@ -111,4 +111,7 @@
 .navbar{
     opacity: 75%
 }
-
+.folderIcon{
+    opacity: 50%;
+    margin-left: 5px;
+}
