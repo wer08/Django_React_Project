@@ -13,7 +13,6 @@ from django.dispatch import receiver
 
 
 
-
 # Create your views here.
 def change_data(request,pk):
     user = User.objects.get(pk = pk)
@@ -97,6 +96,14 @@ def get_convo(request):
         'number_of_pages': number_of_pages
     }
     return JsonResponse(resp)
+
+def get_files(request):
+    user_pk = request.GET.get('user_id',"")
+    contact_pk = request.GET.get('contact_id',"")
+    messages_with_files = Message.objects.filter(file__isnull = False, sender = user_pk, receiver = contact_pk).exclude(file__exact="")
+    messages_with_files = [MessageSerializer(message).data for message in messages_with_files]
+    files = [message.get('file') for message in messages_with_files]
+    return JsonResponse(files,safe=False)
 
 
 def add_message(request):

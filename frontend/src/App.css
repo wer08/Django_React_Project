@@ -45,6 +45,9 @@
     .convo-wrapper{
         margin-right: 0;
     }
+    .contactInfo{
+        display: none;
+    }
 }
 .contact:hover{
     background-color: #e4e6eb;

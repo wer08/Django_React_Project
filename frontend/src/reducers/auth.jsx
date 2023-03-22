@@ -32,6 +32,8 @@ import {
     GET_STATUSES_SUCCESS,
     DELETE_MESSAGE_FAIL,
     DELETE_MESSAGE_SUCCESS,
+    GET_FILES_FAIL,
+    GET_FILES_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
@@ -41,6 +43,7 @@ const initialState = {
     user: null,
     users: null,
     messages: null,
+    files: null,
     receiver: null,
     contacts: null,
     statuses: null,
@@ -116,6 +119,12 @@ export default (state = initialState, action) => {
                 receiver: payload.receiver,
                 numberOfPages: payload.number_of_pages
             }
+        case GET_FILES_SUCCESS:
+            return{
+                ...state,
+                files: payload
+
+            }
         case GET_CONTACTS_SUCCESS:
             return{
                 ...state,
@@ -141,6 +150,7 @@ export default (state = initialState, action) => {
         case DELETE_MESSAGE_FAIL:
         case DELETE_MESSAGE_SUCCESS:
         case GET_STATUSES_FAIL:
+        case GET_FILES_FAIL:
             return{
                 ...state,
             }

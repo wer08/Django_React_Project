@@ -16,8 +16,8 @@ import {
     GET_STATUSES_SUCCESS,
     DELETE_MESSAGE_FAIL,
     DELETE_MESSAGE_SUCCESS,
-    GET_SIGNALS_FAIL,
-    GET_SIGNALS_SUCCESS
+    GET_FILES_FAIL,
+    GET_FILES_SUCCESS
 } from "./types";
 
 axios.defaults.withCredentials = true;
@@ -142,6 +142,20 @@ export const get_convo = (user_id, contact_id, page) => async dispatch => {
     }
 }
 
+export const get_files = (user_id,contact_id) => async dispatch => {
+    try{
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/get_files?user_id=${user_id}&contact_id=${contact_id}`);
+        dispatch({
+            type: GET_FILES_SUCCESS,
+            payload: res.data
+        })
+    }catch(e){  
+        console.log(e)
+        dispatch({
+            type: GET_FILES_FAIL
+        })
+    }
+}
 
 export const add_message = (id, contact_id, text, file) => async dispatch => {
 
