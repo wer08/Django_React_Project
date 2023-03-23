@@ -60,7 +60,8 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
             bottom: 'auto',
             transform: 'translate(-50%, -50%)',
             backgroundColor: 'black',
-            animation: 'fadeIn 1s ease forwards'
+            animation: 'fadeIn 1s ease forwards',
+            overflowX: 'hidden'
 
           },
           overlay: {
@@ -104,7 +105,7 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
         ariaHideApp={false}
     >
         {showPicture?
-            <Image imageUrl={currentPicture} setShowPicture={setShowPicture}/>
+            <Image imageUrl={currentPicture} setShowPicture={setShowPicture} setCurrentPicture={setCurrentPicture}/>
             :<FileBox setShowPicture={setShowPicture} setCurrentPicture={setCurrentPicture}/>}
     </Modal>
     <button 
