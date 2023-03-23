@@ -5,25 +5,15 @@ import { connect } from "react-redux";
 import { get_convo, get_files } from "../actions/myProject";
 import Modal from "react-modal/lib/components/Modal";
 import FileBox from "./FileBox";
+import Image from "./Image";
 
-const modalStyles = {
-    content: {
-      top: '10%',
-      left: '20%',
-      right: 'auto',
-      bottom: '10%',
-      borderRadius: '25px',
-      boxShadow: '0px 0px 10px 10px #F2F3F5',
-    },
-    overlay:{
-        
-    }
-  };
 
 const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) => {
     const [isShown, setIsShown] = useState(false)
     const [currentStatus, setCurrentStatus] = useState(status)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [showPicture,setShowPicture] = useState(false)
+    const [currentPicture, setCurrentPicture] = useState("")
     const fileRef = useRef(null)
 
     useEffect(()=>{
@@ -52,7 +42,54 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
     }
     const closeModal = ()=>{
         setIsModalOpen(false)
+        setCurrentPicture("")
+        setShowPicture(false)
     }
+
+    const modalStyles = showPicture ? 
+      {
+        content: {
+            position: 'absolute',
+            border: 'none',
+            borderRadius: '25px',
+            boxShadow: '0px 0px 10px 10px #363535',
+            padding: '0px',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'black',
+            animation: 'fadeIn 1s ease forwards'
+
+          },
+          overlay: {
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            right: '0',
+            bottom: '0',
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            animation: 'fadeIn 1s ease forwards'
+          }
+      } :
+      {
+        content: {
+          top: '10%',
+          left: '20%',
+          right: 'auto',
+          bottom: '10%',
+          borderRadius: '25px',
+          boxShadow: '0px 0px 10px 10px #363535',
+          backgroundColor: 'white',
+        },
+        overlay: {
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            animation: 'fadeIn 1s ease forwards'
+
+
+        }
+      }
 
     const contactName = currentStatus ? "contactInfo" : "fw-bold contactInfo";
     const visibility = isShown ? 'visible' : 'hidden';
@@ -66,7 +103,9 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
         style={modalStyles}
         ariaHideApp={false}
     >
-        <FileBox />
+        {showPicture?
+            <Image imageUrl={currentPicture} setShowPicture={setShowPicture}/>
+            :<FileBox setShowPicture={setShowPicture} setCurrentPicture={setCurrentPicture}/>}
     </Modal>
     <button 
         className={receiver==contact.id?"list-group-item click contact text-start active_conv mb-2":"list-group-item click contact text-start mb-2"}  

@@ -3,20 +3,13 @@ import { useRef, useState } from "react";
 import { connect } from "react-redux";
 
 
-const FileBox = ({files}) => {
-    const [showPicture,setShowPicture] = useState(false)
-    const [currentPicture, setCurrentPicture] = useState("")
-
+const FileBox = ({files, setCurrentPicture, setShowPicture}) => {
 
     const handleOnClick = (e) => {
         setShowPicture(true)
         setCurrentPicture(e.currentTarget.name)
     }
-    const closeModal = ()=>{
-        setShowPicture(false)
-    }
     return ( 
-        <>
         <div className="fileBox">{files?.map((file,idx)=>
             <div key={idx}>
                 <img 
@@ -27,7 +20,6 @@ const FileBox = ({files}) => {
                 ></img>
             </div>)
         }</div>
-        </>
      );
 }
 const mapStateToProps = state =>({
