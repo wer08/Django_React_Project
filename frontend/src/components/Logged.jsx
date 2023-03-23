@@ -11,12 +11,12 @@ const Logged = () => {
 
     try{
         return(
-            <>
+            <div className="mainComponent">
                 <SplitPane split="vertical" minSize={'20%'} defaultSize={'20%'}>
                     <Contacts />
                     <Conversation />
                 </SplitPane>
-            </>
+            </div>
         )
     }
     catch(e){

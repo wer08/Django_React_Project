@@ -33,7 +33,8 @@ const SentMessage = ({message, page}) => {
             onMouseOver={()=>onMouseOver()} 
             onMouseLeave={()=>onMouseLeave()}
             ref = {messageRef}
-            data-bs-toggle="tooltip" data-bs-placement="top"
+            data-bs-toggle="tooltip" 
+            data-bs-placement="top"
             data-bs-custom-class="custom-tooltip"
             data-bs-title={date} >
             {message.file ? <img src={`${import.meta.env.VITE_API_URL}/${message.file}`} alt="Can't display" width="150" height="150" className="me-2"></img>  : message.body}
