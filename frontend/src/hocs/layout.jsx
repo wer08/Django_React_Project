@@ -84,10 +84,9 @@ const Layout = ({check_authentication, load_user, children, get_users, user,get_
     );
 }
 const mapStateToProps = state => ({
-    signals: state.auth.signals,
     user: state.auth.user,
-    users: state.auth.users,
-    receiver: state.auth.receiver
+    users: state.myProject.users,
+    receiver: state.myProject.receiver
 })
  
 export default connect(mapStateToProps, {check_authentication, load_user, get_users, get_statuses, get_convo})(Layout);

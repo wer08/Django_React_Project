@@ -161,7 +161,7 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
       );
 }
 const mapStateToProps = (state)=>({
-    files: state.auth.files
+    files: state.myProject.files
 })
  
 export default connect(mapStateToProps,{get_convo,get_files})(Contact);

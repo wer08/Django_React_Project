@@ -23,6 +23,6 @@ const FileBox = ({files, setCurrentPicture, setShowPicture}) => {
      );
 }
 const mapStateToProps = state =>({
-    files: state.auth.files
+    files: state.myProject.files
 })
 export default connect(mapStateToProps,{})(FileBox);

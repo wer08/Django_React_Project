@@ -48,11 +48,11 @@ const Contacts = ({user, users, contacts, add_contact, receiver, statuses}) => {
      );
 }
 const mapStateToProps = state => ({
-    users: state.auth.users,
+    users: state.myProject.users,
     user: state.auth.user,
-    contacts: state.auth.contacts,
-    receiver: state.auth.receiver,
-    statuses: state.auth.statuses,
+    contacts: state.myProject.contacts,
+    receiver: state.myProject.receiver,
+    statuses: state.myProject.statuses,
     
 });
  
