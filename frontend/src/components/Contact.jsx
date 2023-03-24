@@ -99,7 +99,8 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
       const otherPicturesStyle = {
         position: 'absolute',
         top: '90%',
-        left: 0,
+        left: '110%',
+        transform: 'translate(50%,0%)',
         width: '10%',
         height: '10%',
         display: 'flex',
