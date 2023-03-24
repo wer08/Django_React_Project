@@ -14,4 +14,4 @@ django-debug-toolbar
 django-vite
 pillow
 channels
-daphne
+
