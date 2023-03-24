@@ -34,6 +34,10 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
         get_convo(user.id, id, 1)
     }
 
+    const handleOnClick = e => {
+        setCurrentPicture(e.currentTarget.name)
+      }
+
     const onFolderClick = (e) => {
         const filesMessages = files
         const id = e.target.closest('button').name
@@ -92,6 +96,20 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
         }
       }
 
+      const otherPicturesStyle = {
+        position: 'absolute',
+        top: '90%',
+        left: 0,
+        width: '10%',
+        height: '10%',
+        display: 'flex',
+        padding: '20px',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        zIndex: '9999',
+
+    }
+
     const contactName = currentStatus ? "contactInfo" : "fw-bold contactInfo";
     const visibility = isShown ? 'visible' : 'hidden';
 
@@ -108,6 +126,15 @@ const Contact = ({receiver,contact,status,user, get_convo, get_files, files}) =>
             <Image imageUrl={currentPicture} setShowPicture={setShowPicture} setCurrentPicture={setCurrentPicture}/>
             :<FileBox setShowPicture={setShowPicture} setCurrentPicture={setCurrentPicture}/>}
     </Modal>
+    {isModalOpen && showPicture && <div style={otherPicturesStyle}>{files?.map((file,idx)=>
+            <div key={idx}>
+                <img 
+                src={`${import.meta.env.VITE_API_URL}/${file}`} 
+                className='fileChoice'
+                name={`${import.meta.env.VITE_API_URL}/${file}`}
+                onClick={e=>handleOnClick(e)}
+                ></img>
+            </div>)}</div>}
     <button 
         className={receiver==contact.id?"list-group-item click contact text-start active_conv mb-2":"list-group-item click contact text-start mb-2"}  
         value={contact.email} 
