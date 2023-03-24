@@ -45,7 +45,7 @@ const ReceivedMessage = ({message, users}) => {
     );
 }
 const mapStateToProps = state => ({
-    users: state.auth.users
+    users: state.myProject.users
 })
  
 export default connect(mapStateToProps,{})(ReceivedMessage);

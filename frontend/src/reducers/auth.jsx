@@ -19,21 +19,7 @@ import {
     FACEBOOK_AUTH_FAIL,
     FACEBOOK_AUTH_SUCCES,
     PROFILE_CHANGE_FAIL,
-    PROFILE_CHANGE_SUCCESS,
-    GET_USERS_FAIL,
-    GET_USERS_SUCCESS,
-    GET_CONVO_FAIL,
-    GET_CONVO_SUCCESS,
-    ADD_MESSAGE_FAIL,
-    ADD_MESSAGE_SUCCESS,
-    GET_CONTACTS_FAIL,
-    GET_CONTACTS_SUCCESS,
-    GET_STATUSES_FAIL,
-    GET_STATUSES_SUCCESS,
-    DELETE_MESSAGE_FAIL,
-    DELETE_MESSAGE_SUCCESS,
-    GET_FILES_FAIL,
-    GET_FILES_SUCCESS,
+    PROFILE_CHANGE_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -41,13 +27,6 @@ const initialState = {
     refresh : localStorage.getItem('refresh'),
     isAuthenticated: null,
     user: null,
-    users: null,
-    messages: null,
-    files: null,
-    receiver: null,
-    contacts: null,
-    statuses: null,
-    numberOfPages: null,
 }
 
 export default (state = initialState, action) => {
@@ -107,33 +86,6 @@ export default (state = initialState, action) => {
                 ...state,
                 user: {...state.user, first_name: payload.first_name, last_name: payload.last_name, phone: payload.phone, profile_pic: payload.profile_pic}
             }
-        case GET_USERS_SUCCESS:
-            return{
-                ...state,
-                users: payload
-            }
-        case GET_CONVO_SUCCESS:
-            return{
-                ...state,
-                messages: payload.messages,
-                receiver: payload.receiver,
-                numberOfPages: payload.number_of_pages
-            }
-        case GET_FILES_SUCCESS:
-            return{
-                ...state,
-                files: payload
-            }
-        case GET_CONTACTS_SUCCESS:
-            return{
-                ...state,
-                contacts: payload
-            }
-        case GET_STATUSES_SUCCESS:
-            return{
-                ...state,
-                statuses: payload
-            }
         case PASSWORD_RESET_CONFIRM_FAIL:
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_FAIL:
@@ -141,18 +93,10 @@ export default (state = initialState, action) => {
         case ACTIVATION_FAIL:
         case PASSWORD_RESET_SUCCESS:
         case PROFILE_CHANGE_FAIL:
-        case GET_USERS_FAIL:
-        case GET_CONVO_FAIL:
-        case ADD_MESSAGE_FAIL:
-        case ADD_MESSAGE_SUCCESS:
-        case GET_CONTACTS_FAIL:
-        case DELETE_MESSAGE_FAIL:
-        case DELETE_MESSAGE_SUCCESS:
-        case GET_STATUSES_FAIL:
-        case GET_FILES_FAIL:
             return{
                 ...state,
             }
+
         default:
             return state
     }

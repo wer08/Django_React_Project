@@ -144,9 +144,9 @@ const Conversation = ({messages,user, receiver, add_message, get_convo, numberOf
     );
 }
 const mapStateToProps = (state) => ({
-    messages: state.auth.messages,
+    messages: state.myProject.messages,
     user: state.auth.user,
-    receiver: state.auth.receiver,
-    numberOfPages: state.auth.numberOfPages,
+    receiver: state.myProject.receiver,
+    numberOfPages: state.myProject.numberOfPages,
 })
 export default connect(mapStateToProps,{add_message, get_convo})(Conversation);
